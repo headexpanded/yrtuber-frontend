@@ -14,5 +14,5 @@ RUN npm install
 # Expose dev server port
 EXPOSE 9000
 
-# Default command for dev server
-CMD ["quasar", "dev"]
+# Default command for dev server with proper host binding
+CMD ["quasar", "dev", "--host", "0.0.0.0", "--port", "9000"]
