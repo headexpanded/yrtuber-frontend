@@ -91,7 +91,8 @@ export const useAuthStore = defineStore<'auth', State, Getters, Actions>('auth',
         await api.post('/api/register', payload, { withCredentials: true });
 
         // After successful registration, fetch user data
-        await this.fetchUser();
+        // await this.fetchUser();
+        console.log("Here I am")
 
         // const usersStore = useUsersStore();
         // await usersStore.fetchUsers();
