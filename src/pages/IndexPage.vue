@@ -47,7 +47,7 @@ const register = async () => {
   try {
     await useAuthStore().register({
       username: "Mark",
-      email: "mark@mixvoip.com",
+      email: "mark@example.com",
       password: "Secret123",
       password_confirmation: "Secret123",
     });
