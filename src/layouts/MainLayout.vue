@@ -14,7 +14,7 @@
         <div v-if="authStore.isAuthenticated" class="q-ml-auto">
           <q-btn-dropdown flat color="white" :label="authStore.username || 'User'">
             <q-list>
-              <q-item clickable v-close-popup @click="goToProfile">
+              <q-item clickable v-close-popup @click="handleProfileClick">
                 <q-item-section avatar>
                   <q-icon name="person" />
                 </q-item-section>
@@ -107,8 +107,8 @@ const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value;
 };
 
-const goToProfile = () => {
-  router.push('/profile');
+const goToProfile = async () => {
+  await router.push('/profile');
 };
 
 const handleLogout = async () => {
@@ -117,7 +117,7 @@ const handleLogout = async () => {
 
     Notifier.quickPositive('auth.logout.success');
 
-    router.push('/');
+    await router.push('/');
   } catch (error) {
     console.error('Logout error:', error);
   }
@@ -125,6 +125,10 @@ const handleLogout = async () => {
 
 const handleLogoutClick = () => {
   void handleLogout();
+};
+
+const handleProfileClick = () => {
+  void goToProfile();
 };
 </script>
 
