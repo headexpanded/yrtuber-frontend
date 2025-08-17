@@ -1,7 +1,7 @@
 import { api } from 'boot/axios';
 import { defineStore } from 'pinia';
-import { UserApiService } from 'src/services/userApi';
-import type { LoginCredentials, RegisterCredentials, User } from 'src/types/user';
+import { UserApiService } from '../services/userApi';
+import type { LoginCredentials, RegisterCredentials, User } from "src/types/user";
 
 type State = {
   user: User | null;
