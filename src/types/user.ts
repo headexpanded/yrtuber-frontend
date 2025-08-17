@@ -26,6 +26,7 @@ export type SocialLinks = {
   facebook?: string;
   instagram?: string;
   youtube?: string;
+  tiktok?: string;
   linkedin?: string;
   github?: string;
 };
