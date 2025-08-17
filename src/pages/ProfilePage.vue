@@ -246,10 +246,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from 'src/stores/auth-store';
-import { useUserStore } from 'src/stores/user-store';
-import { Notifier } from 'src/utils/notifier';
-import type { UpdateProfileData, UpdatePasswordData } from 'src/types/user';
+import { useAuthStore } from 'stores/auth-store';
+import { useUserStore } from 'stores/user-store';
+import { Notifier } from '../utils/notifier';
+import type { UpdateProfileData, UpdatePasswordData } from "src/types/user.ts"
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -269,6 +269,7 @@ const profileForm = ref<UpdateProfileData>({
     facebook: '',
     instagram: '',
     youtube: '',
+    tiktok: '',
     linkedin: '',
     github: '',
   },
@@ -299,7 +300,28 @@ onMounted(() => {
 
 const handleUpdateProfile = async () => {
   try {
+    console.log('Submitting profile update:', profileForm.value);
+
     await userStore.updateProfile(profileForm.value);
+
+    console.log('Profile updated, current auth user:', authStore.user);
+
+    // Refresh the form with updated user data
+    if (authStore.user) {
+      profileForm.value.username = authStore.user.username;
+      if (authStore.user.profile) {
+        profileForm.value.bio = authStore.user.profile.bio || '';
+        profileForm.value.website = authStore.user.profile.website || '';
+        if (authStore.user.profile.social_links) {
+          profileForm.value.social_links = {
+            ...profileForm.value.social_links,
+            ...authStore.user.profile.social_links,
+          };
+        }
+      }
+    }
+
+    console.log('Form refreshed with:', profileForm.value);
 
     Notifier.quickPositive('profile.update.success');
   } catch (error) {
