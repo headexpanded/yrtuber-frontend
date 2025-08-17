@@ -1,20 +1,88 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header elevated class="bg-primary text-white">
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+        <q-toolbar-title>
+          <router-link to="/" class="text-white text-decoration-none">
+            yrtuber
+          </router-link>
+        </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <!-- User Menu -->
+        <div v-if="authStore.isAuthenticated" class="q-ml-auto">
+          <q-btn-dropdown flat color="white" :label="authStore.username || 'User'">
+            <q-list>
+              <q-item clickable v-close-popup @click="goToProfile">
+                <q-item-section avatar>
+                  <q-icon name="person" />
+                </q-item-section>
+                <q-item-section>Profile</q-item-section>
+              </q-item>
+
+              <q-separator />
+
+              <q-item clickable v-close-popup @click="handleLogout">
+                <q-item-section avatar>
+                  <q-icon name="logout" />
+                </q-item-section>
+                <q-item-section>Logout</q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
+        </div>
+
+        <!-- Auth Buttons -->
+        <div v-else class="q-ml-auto">
+          <q-btn flat color="white" label="Login" to="/auth/login" />
+          <q-btn flat color="white" label="Register" to="/auth/register" />
+        </div>
       </q-toolbar>
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label header> Essential Links </q-item-label>
+        <q-item-label header> Navigation </q-item-label>
 
-        <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" />
+        <q-item clickable v-ripple to="/" exact>
+          <q-item-section avatar>
+            <q-icon name="home" />
+          </q-item-section>
+          <q-item-section>Home</q-item-section>
+        </q-item>
+
+        <q-item v-if="authStore.isAuthenticated" clickable v-ripple to="/profile">
+          <q-item-section avatar>
+            <q-icon name="person" />
+          </q-item-section>
+          <q-item-section>Profile</q-item-section>
+        </q-item>
+
+        <q-separator />
+
+        <q-item-label header> Account </q-item-label>
+
+        <q-item v-if="!authStore.isAuthenticated" clickable v-ripple to="/auth/login">
+          <q-item-section avatar>
+            <q-icon name="login" />
+          </q-item-section>
+          <q-item-section>Login</q-item-section>
+        </q-item>
+
+        <q-item v-if="!authStore.isAuthenticated" clickable v-ripple to="/auth/register">
+          <q-item-section avatar>
+            <q-icon name="person_add" />
+          </q-item-section>
+          <q-item-section>Register</q-item-section>
+        </q-item>
+
+        <q-item v-if="authStore.isAuthenticated" clickable v-ripple @click="handleLogoutClick">
+          <q-item-section avatar>
+            <q-icon name="logout" />
+          </q-item-section>
+          <q-item-section>Logout</q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -26,56 +94,42 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import EssentialLink, { type EssentialLinkProps } from 'components/EssentialLink.vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from 'src/stores/auth-store';
+import { Notifier } from 'src/utils/notifier';
 
-const linksList: EssentialLinkProps[] = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev',
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework',
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev',
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev',
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev',
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev',
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev',
-  },
-];
+const router = useRouter();
+const authStore = useAuthStore();
 
 const leftDrawerOpen = ref(false);
 
-function toggleLeftDrawer() {
+const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value;
-}
+};
+
+const goToProfile = () => {
+  router.push('/profile');
+};
+
+const handleLogout = async () => {
+  try {
+    await authStore.logout();
+
+    Notifier.quickPositive('auth.logout.success');
+
+    router.push('/');
+  } catch (error) {
+    console.error('Logout error:', error);
+  }
+};
+
+const handleLogoutClick = () => {
+  void handleLogout();
+};
 </script>
+
+<style scoped>
+.text-decoration-none {
+  text-decoration: none;
+}
+</style>
