@@ -1,128 +1,138 @@
 import { api } from 'boot/axios';
 import { defineStore } from 'pinia';
+import { UserApiService } from 'src/services/userApi';
+import type { LoginCredentials, RegisterCredentials, User } from 'src/types/user';
 
 type State = {
-  username: string | null;
-  email: string | null;
+  user: User | null;
   csrfFetched: boolean;
-  roles: string[];
+  isLoading: boolean;
+  error: string | null;
 };
 
 type Getters = {
-  isAdmin: (state: State) => boolean;
   isAuthenticated: (state: State) => boolean;
+  username: (state: State) => string | null;
+  email: (state: State) => string | null;
+  profile: (state: State) => User['profile'] | null;
 };
 
 type Actions = {
   init: () => Promise<void>;
-  login: (username: string, password: string) => Promise<void>;
+  ensureInitialized: () => Promise<void>;
+  login: (credentials: LoginCredentials) => Promise<void>;
   logout: () => Promise<void>;
-  register: (payload: {
-    email: string;
-    password: string;
-    password_confirmation: string;
-    username: string;
-  }) => Promise<void>;
+  register: (credentials: RegisterCredentials) => Promise<void>;
   fetchUser: () => Promise<void>;
   checkAuth: () => Promise<boolean>;
-  checkTokenExpiration: () => void;
   clearState: () => void;
+  clearError: () => void;
 };
 
 const defaultState: State = {
-  username: null,
-  email: null,
+  user: null,
   csrfFetched: false,
-  roles: [],
+  isLoading: false,
+  error: null,
 };
 
 export const useAuthStore = defineStore<'auth', State, Getters, Actions>('auth', {
   state: () => ({ ...defaultState }),
   // persist: true,
   getters: {
-    isAdmin: (state) => state.roles.includes('admin'),
-    isAuthenticated: (state) => !!state.username,
+    isAuthenticated: (state) => !!state.user,
+    username: (state) => state.user?.username || null,
+    email: (state) => state.user?.email || null,
+    profile: (state) => state.user?.profile || null,
   },
 
   actions: {
     async init() {
       if (!this.csrfFetched) {
         // Fetch CSRF cookie from the correct Sanctum endpoint
-        await api.get('/sanctum/csrf-cookie');
+        await api.get(`/sanctum/csrf-cookie`);
         this.csrfFetched = true;
       }
     },
 
-    checkTokenExpiration() {
-      // Check if the access token is expired
+    async ensureInitialized() {
+      await this.init();
     },
 
-    async login(username: string, password: string) {
-      await this.init();
+    async login(credentials: LoginCredentials) {
+      this.isLoading = true;
+      this.error = null;
 
       try {
-        // Use Fortify's login endpoint
-        await api.post('/api/login', { username, password }, { withCredentials: true });
+        // Ensure CSRF token is fetched before login
+        await this.ensureInitialized();
 
-        // Fortify login returns a redirect response, so we need to fetch the user data
-        await this.fetchUser();
+        const response = await UserApiService.login(credentials);
+        this.user = response.user;
+        this.csrfFetched = true;
       } catch (err) {
-        console.error('Login failed', err);
+        this.error = err instanceof Error ? err.message : 'Login failed';
         throw err;
+      } finally {
+        this.isLoading = false;
       }
     },
 
     async logout() {
-      // Use Fortify's logout endpoint
-      await api.post('/api/logout', {}, { withCredentials: true });
-      this.clearState();
-    },
-
-    async register(payload: {
-      email: string;
-      password: string;
-      password_confirmation: string;
-      username: string;
-    }) {
-      await this.init();
+      this.isLoading = true;
 
       try {
-        // Use Fortify's register endpoint
-        await api.post('/api/register', payload, { withCredentials: true });
-
-        // After successful registration, fetch user data
-        // await this.fetchUser();
-        console.log("Here I am")
-
-        // const usersStore = useUsersStore();
-        // await usersStore.fetchUsers();
+        await UserApiService.logout();
+        this.clearState();
       } catch (err) {
-        console.error('Registration failed', err);
+        this.error = err instanceof Error ? err.message : 'Logout failed';
         throw err;
+      } finally {
+        this.isLoading = false;
       }
     },
 
-    async fetchUser(): Promise<void> {
-      const response = await api.get('/api/user', { withCredentials: true });
-      if (!response.data.username) {
-        throw new Error('Missing username in response');
+    async register(credentials: RegisterCredentials) {
+      this.isLoading = true;
+      this.error = null;
+
+      try {
+        // Ensure CSRF token is fetched before registration
+        await this.ensureInitialized();
+
+        const response = await UserApiService.register(credentials);
+        this.user = response.user;
+        this.csrfFetched = true;
+      } catch (err) {
+        this.error = err instanceof Error ? err.message : 'Registration failed';
+        throw err;
+      } finally {
+        this.isLoading = false;
       }
+    },
 
-      // Extract roles from is_admin field
-      // const roles = response.data.is_admin ? ['admin'] : [];
+    async fetchUser() {
+      this.isLoading = true;
+      this.error = null;
 
-      // this.$patch({
-      //   roles: roles,
-      //   username: response.data.username,
-      //   supportedTeam: response.data.supportedTeam || { id: null, name: null, logo_url: null },
-      // });
-      return response.data;
+      try {
+        // Ensure CSRF token is fetched before fetching user
+        await this.ensureInitialized();
+
+        this.user = await UserApiService.getCurrentUser();
+        this.csrfFetched = true;
+      } catch (err) {
+        this.error = err instanceof Error ? err.message : 'Failed to fetch user';
+        this.clearState();
+        throw err;
+      } finally {
+        this.isLoading = false;
+      }
     },
 
     async checkAuth(): Promise<boolean> {
       try {
         await this.fetchUser();
-        this.csrfFetched = true;
         return true;
       } catch {
         this.clearState();
@@ -131,12 +141,13 @@ export const useAuthStore = defineStore<'auth', State, Getters, Actions>('auth',
     },
 
     clearState() {
-      // this.$patch({
-      //   username: null,
-      //   supportedTeam: { id: null, name: null, logo_url: null },
-      //   csrfFetched: false,
-      //   roles: [],
-      // });
+      this.user = null;
+      this.csrfFetched = false;
+      this.error = null;
+    },
+
+    clearError() {
+      this.error = null;
     },
   },
 });
