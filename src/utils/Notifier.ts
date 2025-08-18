@@ -1,5 +1,6 @@
 import { NotifyCustomType } from 'boot/notify';
 import { Notify } from 'quasar';
+import { i18n } from "boot/i18n";
 
 export type MessageOptions = Record<string, unknown>;
 
@@ -13,6 +14,7 @@ export class Notifier {
   static #notify(
     type: string,
     messageKey: string,
+    messageOptions: MessageOptions = {},
     actions: QNotifyAction[] = [],
   ) {
 
@@ -28,25 +30,25 @@ export class Notifier {
           ];
     Notify.create({
       type,
-      message: messageKey, // Assuming messageKey is already localized
+      message: i18n.global.t(messageKey, messageOptions),
       actions: notifyActions,
       classes: 'white-space-pre-line',
     });
   }
 
-  static quickPositive(messageKey: string, actions: QNotifyAction[] = []) {
-    this.#notify(NotifyCustomType.QuickPositive, messageKey, actions);
+  static quickPositive(messageKey: string, messageOptions: MessageOptions = {}, actions: QNotifyAction[] = []) {
+    this.#notify(NotifyCustomType.QuickPositive, messageKey, messageOptions, actions);
   }
 
-  static quickNegative(messageKey: string, actions: QNotifyAction[] = []) {
-    this.#notify(NotifyCustomType.QuickNegative, messageKey, actions);
+  static quickNegative(messageKey: string, messageOptions: MessageOptions = {}, actions: QNotifyAction[] = []) {
+    this.#notify(NotifyCustomType.QuickNegative, messageKey, messageOptions, actions);
   }
 
-  static quickWarning(messageKey: string, actions: QNotifyAction[] = []) {
-    this.#notify(NotifyCustomType.QuickWarning, messageKey, actions);
+  static quickWarning(messageKey: string, messageOptions: MessageOptions = {}, actions: QNotifyAction[] = []) {
+    this.#notify(NotifyCustomType.QuickWarning, messageKey, messageOptions, actions);
   }
 
-  static quickInfo(messageKey: string, actions: QNotifyAction[] = []) {
-    this.#notify(NotifyCustomType.QuickInfo, messageKey, actions);
+  static quickInfo(messageKey: string, messageOptions: MessageOptions = {}, actions: QNotifyAction[] = []) {
+    this.#notify(NotifyCustomType.QuickInfo, messageKey, messageOptions, actions);
   }
 }
