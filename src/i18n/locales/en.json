@@ -2,9 +2,11 @@
 	"errors": {
 		"emailAlreadyExists": "Email already exists",
 		"invalidCredentials": "Invalid credentials",
+		"networkError": "Network error - unable to reach the network mate.",
 		"passwordsDoNotMatch": "Passwords do not match",
 		"passwordTooShort": "Password must be at least 8 characters long",
 		"usernameAlreadyExists": "Username already exists",
+		"usernameTooShort": "Username must be at least 3 characters long",
 		"valueRequired": "This value is required."
 	},
 
@@ -34,8 +36,10 @@
 		"profileUpdated": "Profile updated successfully",
 		"register": "Register",
 		"registerHere": "Register here",
+		"socialLinks": "Social links",
 		"updateProfile": "Update profile",
 		"username": "Username",
-		"usernameRequired": "Username is required"
+		"usernameRequired": "Username is required",
+		"website": "Website"
 	}
 }

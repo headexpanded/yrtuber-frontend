@@ -17,7 +17,6 @@
               <q-tab name="password" :label="$t('labels.password')" />
               <q-tab name="danger" :label="$t('labels.dangerZone')" />
             </q-tabs>
-
             <q-tab-panels v-model="activeTab" animated>
               <!-- Profile Tab -->
               <q-tab-panel name="profile">

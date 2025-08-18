@@ -16,7 +16,7 @@
       outlined
       :rules="[
         (val) => !!val || $t('errors.valueRequired'),
-        (val) => val.length >= 3 || 'Username must be at least 3 characters',
+        (val) => val.length >= 3 || $t('errors.usernameTooShort'),
         (val) =>
           /^[a-zA-Z0-9_]+$/.test(val) ||
           'Username can only contain letters, numbers, and underscores',
@@ -25,9 +25,11 @@
 
     <q-input
       v-model="formData.bio"
+      counter
       :disable="userStore.isLoading"
       :label="$t('labels.bio')"
       lazy-rules
+      maxlength="1000"
       outlined
       :rules="[(val) => !val || val.length <= 1000 || 'Bio must be 1000 characters or less']"
       type="textarea"
@@ -36,14 +38,14 @@
     <q-input
       v-model="formData.website"
       :disable="userStore.isLoading"
-      label="Website"
+      :label="$t('labels.website')"
       lazy-rules
       outlined
       :rules="[(val) => !val || /^https?:\/\/.+/.test(val) || 'Please enter a valid URL']"
       type="url"
     />
 
-    <div class="text-h6 q-mb-sm">Social Links</div>
+    <div class="text-h6 q-mb-sm">{{$t('labels.socialLinks')}}</div>
 
     <div class="row q-gutter-md">
       <div class="col-12 col-sm-6">
