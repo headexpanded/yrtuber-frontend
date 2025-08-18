@@ -47,7 +47,6 @@ export const useAuthStore = defineStore<'auth', State, Getters, Actions>('auth',
   actions: {
     async init() {
       if (!this.csrfFetched) {
-        // Fetch CSRF cookie from the correct Sanctum endpoint
         await api.get(`/sanctum/csrf-cookie`);
         this.csrfFetched = true;
       }
@@ -58,7 +57,6 @@ export const useAuthStore = defineStore<'auth', State, Getters, Actions>('auth',
       this.error = null;
 
       try {
-        // Ensure CSRF token is fetched before login
         await this.init();
 
         const response = await UserApiService.login(credentials);
@@ -91,7 +89,6 @@ export const useAuthStore = defineStore<'auth', State, Getters, Actions>('auth',
       this.error = null;
 
       try {
-        // Ensure CSRF token is fetched before registration
         await this.init();
 
         const response = await UserApiService.register(credentials);
@@ -110,7 +107,6 @@ export const useAuthStore = defineStore<'auth', State, Getters, Actions>('auth',
       this.error = null;
 
       try {
-        // Ensure CSRF token is fetched before fetching user
         await this.init();
 
         console.log('Fetching user data...');
