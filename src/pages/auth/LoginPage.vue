@@ -8,4 +8,4 @@
 import LoginForm from 'components/LoginForm.vue';
 </script>
 
-<style scoped></style>
+<style scoped lang="scss"></style>

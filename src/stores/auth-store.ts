@@ -109,12 +109,9 @@ export const useAuthStore = defineStore<'auth', State, Getters, Actions>('auth',
       try {
         await this.init();
 
-        console.log('Fetching user data...');
         this.user = await UserApiService.getCurrentUser();
-        console.log('User data fetched:', this.user);
         this.csrfFetched = true;
       } catch (err) {
-        console.error('Error fetching user:', err);
         this.error = err instanceof Error ? err.message : 'Failed to fetch user';
         this.clearState();
         throw err;

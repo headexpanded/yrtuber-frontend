@@ -13,21 +13,21 @@
       >
         <q-input
           v-model="formData.username"
-          :label="$t('labels.username')"
-          outlined
-          lazy-rules
-          :rules="[(val) => !!val || 'Username is required']"
           :disable="authStore.isLoading"
+          :label="$t('labels.username')"
+          lazy-rules
+          outlined
+          :rules="[(val) => !!val || $t('errors.valueRequired')]"
         />
 
         <q-input
           v-model="formData.password"
-          :label="$t('labels.password')"
-          type="password"
-          outlined
-          lazy-rules
-          :rules="[(val) => !!val || 'Password is required']"
           :disable="authStore.isLoading"
+          :label="$t('labels.password')"
+          lazy-rules
+          outlined
+          :rules="[(val) => !!val || 'Password is required']"
+          type="password"
         />
 
         <div v-if="authStore.error" class="text-negative text-center q-mb-md">
@@ -35,13 +35,13 @@
         </div>
 
         <q-btn
-          type="submit"
-          :label="$t('labels.login')"
-          no-caps
+          class="q-mt-md full-width"
           color="primary"
-          class="full-width"
-          :loading="authStore.isLoading"
           :disable="authStore.isLoading"
+          :label="$t('labels.login')"
+          :loading="authStore.isLoading"
+          no-caps
+          type="submit"
         />
       </q-form>
     </q-card-section>
@@ -50,7 +50,7 @@
       <p class="q-mb-sm">
         {{ $t('labels.noAccount') }}
         <router-link to="/auth/register" class="text-primary"
-        >{{ $t('labels.registerHere') }}
+          >{{ $t('labels.registerHere') }}
         </router-link>
       </p>
     </q-card-section>
@@ -58,16 +58,15 @@
 </template>
 <script setup lang="ts">
 import { QForm } from 'quasar';
-import { useAuthStore } from 'stores/auth-store';
 import type { LoginCredentials } from 'src/types/user';
-import { useRouter } from 'vue-router';
+import { useAuthStore } from 'stores/auth-store';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 /* ============ PROPS ============ */
 
 /* ============ EMITS ============ */
 
 /* ========= LOCAL SCOPE ========= */
-
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -101,6 +100,10 @@ const handleLogin = async () => {
 };
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.q-card {
+  max-width: 800px;
+  margin: auto;
+  width: 800px;
+}
 </style>

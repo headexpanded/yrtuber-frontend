@@ -120,7 +120,7 @@ const handleLogout = async () => {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .text-decoration-none {
   text-decoration: none;
 }

@@ -1,4 +1,12 @@
 {
+	"errors": {
+		"emailAlreadyExists": "Email already exists",
+		"invalidCredentials": "Invalid credentials",
+		"passwordsDoNotMatch": "Passwords do not match",
+		"usernameAlreadyExists": "Username already exists",
+		"valueRequired": "This value is required."
+	},
+
 	"labels": {
 		"appName": "yrtuber",
 		"bio": "Bio",
@@ -17,6 +25,7 @@
 		"register": "Register",
 		"registerHere": "Register here",
 		"updateProfile": "Update profile",
-		"username": "Username"
+		"username": "Username",
+		"usernameRequired": "Username is required"
 	}
 }
