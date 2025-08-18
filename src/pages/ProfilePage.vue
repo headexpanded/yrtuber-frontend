@@ -261,7 +261,6 @@ const activeTab = ref('profile');
 const showDeleteDialog = ref(false);
 const deletePassword = ref('');
 
-// Initialize profile form with current user data
 const profileForm = ref<UpdateProfileData>({
   username: '',
   bio: '',
@@ -283,9 +282,8 @@ const passwordForm = ref<UpdatePasswordData>({
   password_confirmation: '',
 });
 
-// Load current user data
+
 onMounted(async () => {
-  // Ensure user data is loaded
   if (!authStore.user) {
     await authStore.fetchUser();
   }

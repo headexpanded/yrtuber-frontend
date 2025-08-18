@@ -53,7 +53,6 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from 'src/stores/auth-store';
-import { Notifier } from 'src/utils/notifier';
 import type { LoginCredentials } from 'src/types/user';
 
 const router = useRouter();
@@ -67,13 +66,8 @@ const form = ref<LoginCredentials>({
 const handleLogin = async () => {
   try {
     await authStore.login(form.value);
-
-    Notifier.quickPositive('auth.login.success');
-
-    // Redirect to home page or intended destination
     await router.push('/');
   } catch (error) {
-    // Error is already handled in the store
     console.error('Login error:', error);
   }
 };
