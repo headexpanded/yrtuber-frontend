@@ -8,8 +8,10 @@
 	},
 
 	"labels": {
+		"alreadyHaveAccount": "Already have an account?",
 		"appName": "yrtuber",
 		"bio": "Bio",
+		"createAccount": "Create an account",
 		"confirmPassword": "Confirm new password",
 		"currentPassword": "Current password",
 		"dangerZone": "Danger zone",
