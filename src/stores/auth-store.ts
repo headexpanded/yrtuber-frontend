@@ -37,7 +37,6 @@ const defaultState: State = {
 
 export const useAuthStore = defineStore<'auth', State, Getters, Actions>('auth', {
   state: () => ({ ...defaultState }),
-  // persist: true,
   getters: {
     isAuthenticated: (state) => !!state.user,
     username: (state) => state.user?.username || null,
@@ -139,6 +138,7 @@ export const useAuthStore = defineStore<'auth', State, Getters, Actions>('auth',
     },
 
     clearState() {
+      this.$patch(defaultState);
       this.user = null;
       this.csrfFetched = false;
       this.error = null;
