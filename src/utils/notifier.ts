@@ -1,4 +1,5 @@
 import { Notify } from 'quasar';
+import { NotifyCustomType } from "boot/notify";
 
 export type MessageOptions = Record<string, unknown>;
 export type QNotifyAction = {
@@ -6,13 +7,6 @@ export type QNotifyAction = {
   color: string;
   round: boolean;
 };
-
-export enum NotifyCustomType {
-  QuickPositive = 'positive',
-  QuickNegative = 'negative',
-  QuickWarning = 'warning',
-  QuickInfo = 'info',
-}
 
 export class Notifier {
   static #notify(
