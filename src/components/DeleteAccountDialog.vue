@@ -13,7 +13,7 @@
           label="Password"
           :type="showPassword ? 'text' : 'password'"
           outlined
-          :rules="[(val) => !!val || 'Password is required']"
+          :rules="[(val) => !!val || $t('errors.valueRequired')]"
           :disable="userStore.isLoading"
         >
           <template v-slot:append>
@@ -60,7 +60,7 @@ const modelValue = defineModel<boolean>({
 /* ============= REFS ============ */
 
 const showPassword = ref<boolean>(false);
-const deletePassword = ref('');
+const deletePassword = ref<string>('');
 
 /* ============ HOOKS ============ */
 

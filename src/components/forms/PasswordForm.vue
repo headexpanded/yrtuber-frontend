@@ -86,6 +86,12 @@ import { useRouter } from 'vue-router';
 
 const userStore = useUserStore();
 const router = useRouter();
+type ShowPasswordState = {
+  current: boolean;
+  new: boolean;
+  confirm: boolean;
+};
+
 
 /* ============= REFS ============ */
 
@@ -95,7 +101,7 @@ const formData = ref<UpdatePasswordData>({
   password: '',
   password_confirmation: '',
 });
-const showPassword = ref({
+const showPassword = ref<ShowPasswordState>({
   current: false,
   new: false,
   confirm: false,
