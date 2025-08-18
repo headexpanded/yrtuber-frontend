@@ -84,7 +84,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from 'src/stores/auth-store';
-import { Notifier } from 'src/utils/notifier';
+import { Notifier } from 'src/utils/Notifier';
 import type { RegisterCredentials } from 'src/types/user';
 
 const router = useRouter();
