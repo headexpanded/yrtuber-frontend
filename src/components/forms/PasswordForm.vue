@@ -12,7 +12,7 @@
       v-model="formData.current_password"
       :disable="userStore.isLoading"
       :label="$t('labels.currentPassword')"
-      type="password"
+      :type="showPassword.current ? 'text' : 'password'"
       outlined
       :rules="[(val) => !!val || $t('errors.valueRequired')]"
     >
@@ -24,7 +24,7 @@
     <q-input
       v-model="formData.password"
       :label="$t('labels.newPassword')"
-      :type="showPassword ? 'text' : 'password'"
+      :type="showPassword.new ? 'text' : 'password'"
       outlined
       lazy-rules
       :rules="[
@@ -40,7 +40,7 @@
     <q-input
       v-model="formData.password_confirmation"
       :label="$t('labels.confirmPassword')"
-      type="password"
+      :type="showPassword.confirm ? 'text' : 'password'"
       outlined
       :rules="[
         (val) => !!val || 'Please confirm your new password',
@@ -52,7 +52,6 @@
         <TogglePassword v-model="showPassword.confirm" />
       </template>
     </q-input>
-
     <div v-if="userStore.error" class="text-negative text-center q-mb-md">
       {{ userStore.error }}
     </div>
@@ -94,12 +93,12 @@ const passwordForm = ref<QForm | null>(null);
 const formData = ref<UpdatePasswordData>({
   current_password: '',
   password: '',
-  password_confirmation: ''
+  password_confirmation: '',
 });
 const showPassword = ref({
   current: false,
   new: false,
-  confirm: false
+  confirm: false,
 });
 
 /* ============ HOOKS ============ */

@@ -6,10 +6,6 @@
 
 /* ============ EMITS ============ */
 
-const emit = defineEmits<{
-  updateModelValue: [value: boolean];
-}>();
-
 /* ========= LOCAL SCOPE ========= */
 
 const modelValue = defineModel<boolean>({
@@ -25,9 +21,7 @@ const modelValue = defineModel<boolean>({
 
 const toggle = () => {
   modelValue.value = !modelValue.value;
-  emit('updateModelValue', modelValue.value);
 };
-
 
 </script>
 
