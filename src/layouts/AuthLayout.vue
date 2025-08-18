@@ -3,22 +3,17 @@
     <q-header elevated class="bg-primary text-white">
       <q-toolbar>
         <q-toolbar-title>
-          <router-link to="/" class="text-white text-decoration-none">
-            YRTuber
-          </router-link>
+          <router-link to="/" class="text-white text-decoration-none"> yrtuber </router-link>
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
-
     <q-page-container>
       <router-view />
     </q-page-container>
   </q-layout>
 </template>
 
-<script setup lang="ts">
-// No additional logic needed for this simple layout
-</script>
+<script setup lang="ts"></script>
 
 <style scoped>
 .text-decoration-none {
