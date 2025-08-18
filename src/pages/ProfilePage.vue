@@ -24,15 +24,17 @@
             <q-tab-panels v-model="activeTab" animated>
               <!-- Profile Tab -->
               <q-tab-panel name="profile">
-                                  <q-form @submit="handleUpdateProfileSubmit" class="q-gutter-md">
+                <q-form @submit="handleUpdateProfile" class="q-gutter-md">
                   <q-input
                     v-model="profileForm.username"
                     label="Username"
                     outlined
                     :rules="[
-                      val => !!val || 'Username is required',
-                      val => val.length >= 3 || 'Username must be at least 3 characters',
-                      val => /^[a-zA-Z0-9_]+$/.test(val) || 'Username can only contain letters, numbers, and underscores'
+                      (val) => !!val || 'Username is required',
+                      (val) => val.length >= 3 || 'Username must be at least 3 characters',
+                      (val) =>
+                        /^[a-zA-Z0-9_]+$/.test(val) ||
+                        'Username can only contain letters, numbers, and underscores',
                     ]"
                     :disable="userStore.isLoading"
                   />
@@ -43,7 +45,7 @@
                     type="textarea"
                     outlined
                     :rules="[
-                      val => !val || val.length <= 1000 || 'Bio must be 1000 characters or less'
+                      (val) => !val || val.length <= 1000 || 'Bio must be 1000 characters or less',
                     ]"
                     :disable="userStore.isLoading"
                   />
@@ -54,7 +56,7 @@
                     type="url"
                     outlined
                     :rules="[
-                      val => !val || /^https?:\/\/.+/.test(val) || 'Please enter a valid URL'
+                      (val) => !val || /^https?:\/\/.+/.test(val) || 'Please enter a valid URL',
                     ]"
                     :disable="userStore.isLoading"
                   />
@@ -132,13 +134,13 @@
 
               <!-- Password Tab -->
               <q-tab-panel name="password">
-                <q-form @submit="handleUpdatePasswordSubmit" class="q-gutter-md">
+                <q-form @submit="handleUpdatePassword" class="q-gutter-md">
                   <q-input
                     v-model="passwordForm.current_password"
                     label="Current Password"
                     type="password"
                     outlined
-                    :rules="[val => !!val || 'Current password is required']"
+                    :rules="[(val) => !!val || 'Current password is required']"
                     :disable="userStore.isLoading"
                   />
 
@@ -148,8 +150,8 @@
                     type="password"
                     outlined
                     :rules="[
-                      val => !!val || 'New password is required',
-                      val => val.length >= 8 || 'Password must be at least 8 characters'
+                      (val) => !!val || 'New password is required',
+                      (val) => val.length >= 8 || 'Password must be at least 8 characters',
                     ]"
                     :disable="userStore.isLoading"
                   />
@@ -160,8 +162,8 @@
                     type="password"
                     outlined
                     :rules="[
-                      val => !!val || 'Please confirm your new password',
-                      val => val === passwordForm.password || 'Passwords do not match'
+                      (val) => !!val || 'Please confirm your new password',
+                      (val) => val === passwordForm.password || 'Passwords do not match',
                     ]"
                     :disable="userStore.isLoading"
                   />
@@ -222,7 +224,7 @@
             label="Password"
             type="password"
             outlined
-            :rules="[val => !!val || 'Password is required']"
+            :rules="[(val) => !!val || 'Password is required']"
             :disable="userStore.isLoading"
           />
         </q-card-section>
@@ -233,7 +235,7 @@
             flat
             label="Delete Account"
             color="negative"
-            @click="handleDeleteAccountClick"
+            @click="handleDeleteAccount"
             :loading="userStore.isLoading"
             :disable="userStore.isLoading"
           />
@@ -244,12 +246,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 import { useAuthStore } from 'src/stores/auth-store';
 import { useUserStore } from 'src/stores/user-store';
+import type { UpdatePasswordData, UpdateProfileData } from 'src/types/user';
 import { Notifier } from 'src/utils/notifier';
-import type { UpdateProfileData, UpdatePasswordData } from "src/types/user";
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -283,13 +285,9 @@ const passwordForm = ref<UpdatePasswordData>({
 
 // Load current user data
 onMounted(async () => {
-  console.log('ProfilePage mounted, authStore.user:', authStore.user);
-
   // Ensure user data is loaded
   if (!authStore.user) {
-    console.log('No user data, fetching...');
     await authStore.fetchUser();
-    console.log('After fetchUser, authStore.user:', authStore.user);
   }
 
   if (authStore.user) {
@@ -309,13 +307,7 @@ onMounted(async () => {
 
 const handleUpdateProfile = async () => {
   try {
-    console.log('Submitting profile update:', profileForm.value);
-
     await userStore.updateProfile(profileForm.value);
-
-    console.log('Profile updated, current auth user:', authStore.user);
-
-    // Refresh the form with updated user data
     if (authStore.user) {
       profileForm.value.username = authStore.user.username;
       if (authStore.user.profile) {
@@ -329,8 +321,6 @@ const handleUpdateProfile = async () => {
         }
       }
     }
-
-    console.log('Form refreshed with:', profileForm.value);
 
     Notifier.quickPositive('profile.update.success');
   } catch (error) {
@@ -367,18 +357,5 @@ const handleDeleteAccount = async () => {
     showDeleteDialog.value = false;
     deletePassword.value = '';
   }
-};
-
-// Wrapper functions to handle Promise warnings in template
-const handleUpdateProfileSubmit = () => {
-  void handleUpdateProfile();
-};
-
-const handleUpdatePasswordSubmit = () => {
-  void handleUpdatePassword();
-};
-
-const handleDeleteAccountClick = () => {
-  void handleDeleteAccount();
 };
 </script>
