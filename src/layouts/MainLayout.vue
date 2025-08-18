@@ -5,16 +5,14 @@
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-          <router-link to="/" class="text-white text-decoration-none">
-            yrtuber
-          </router-link>
+          <router-link to="/" class="text-white text-decoration-none"> yrtuber </router-link>
         </q-toolbar-title>
 
         <!-- User Menu -->
         <div v-if="authStore.isAuthenticated" class="q-ml-auto">
           <q-btn-dropdown flat color="white" :label="authStore.username || 'User'">
             <q-list>
-              <q-item clickable v-close-popup @click="handleProfileClick">
+              <q-item clickable v-close-popup @click="goToProfile">
                 <q-item-section avatar>
                   <q-icon name="person" />
                 </q-item-section>
@@ -43,7 +41,7 @@
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label header> Navigation </q-item-label>
+        <q-item-label header> Navigation</q-item-label>
 
         <q-item clickable v-ripple to="/" exact>
           <q-item-section avatar>
@@ -61,7 +59,7 @@
 
         <q-separator />
 
-        <q-item-label header> Account </q-item-label>
+        <q-item-label header> Account</q-item-label>
 
         <q-item v-if="!authStore.isAuthenticated" clickable v-ripple to="/auth/login">
           <q-item-section avatar>
@@ -77,7 +75,7 @@
           <q-item-section>Register</q-item-section>
         </q-item>
 
-        <q-item v-if="authStore.isAuthenticated" clickable v-ripple @click="handleLogoutClick">
+        <q-item v-if="authStore.isAuthenticated" clickable v-ripple @click="handleLogout">
           <q-item-section avatar>
             <q-icon name="logout" />
           </q-item-section>
@@ -93,10 +91,9 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from 'src/stores/auth-store';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from 'src/stores/auth-store';
-import { Notifier } from 'src/utils/notifier';
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -114,21 +111,10 @@ const goToProfile = async () => {
 const handleLogout = async () => {
   try {
     await authStore.logout();
-
-    Notifier.quickPositive('auth.logout.success');
-
     await router.push('/');
   } catch (error) {
     console.error('Logout error:', error);
   }
-};
-
-const handleLogoutClick = () => {
-  void handleLogout();
-};
-
-const handleProfileClick = () => {
-  void goToProfile();
 };
 </script>
 
