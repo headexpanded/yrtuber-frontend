@@ -23,7 +23,7 @@
         <q-input
           v-model="formData.password"
           :disable="authStore.isLoading"
-          :label="$t('labels.password')"
+          :label="$t('passwords.password')"
           lazy-rules
           outlined
           :rules="[(val) => !!val || $t('errors.valueRequired')]"

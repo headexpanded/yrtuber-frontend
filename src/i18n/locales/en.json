@@ -3,8 +3,6 @@
 		"emailAlreadyExists": "Email already exists",
 		"invalidCredentials": "Invalid credentials",
 		"networkError": "Network error - unable to reach the network mate.",
-		"passwordsDoNotMatch": "Passwords do not match",
-		"passwordTooShort": "Password must be at least 8 characters long",
 		"usernameAlreadyExists": "Username already exists",
 		"usernameTooShort": "Username must be at least 3 characters long",
 		"valueRequired": "This value is required."
@@ -18,8 +16,6 @@
 		"cancel": "Cancel",
 		"createAccount": "Create an account",
 		"confirmDeleteAccount": "This action cannot be undone. Please enter your password to confirm.",
-		"confirmPassword": "Confirm new password",
-		"currentPassword": "Current password",
 		"dangerZone": "Danger zone",
 		"deleteAccount": "Delete account",
 		"deletePasswordWarning": "Once you delete your account, there is no going back. Please be certain.",
@@ -27,10 +23,7 @@
 		"emailAddress": "Email address",
 		"login": "Login",
 		"logout": "Logout",
-		"newPassword": "New password",
 		"noAccount": "Don't have an account?",
-		"password": "Password",
-		"passwordUpdated": "Password updated successfully",
 		"profile": "Profile",
 		"profileSettings": "Profile settings",
 		"profileUpdated": "Profile updated successfully",
@@ -41,5 +34,18 @@
 		"username": "Username",
 		"usernameRequired": "Username is required",
 		"website": "Website"
+	},
+	"passwords": {
+		"changePassword": "Change password",
+		"confirmPassword": "Confirm new password",
+		"currentPassword": "Current password",
+		"currentPasswordRequired": "Current password is required",
+		"newPassword": "New password",
+		"newPasswordRequired": "New password is required",
+		"password": "Password",
+		"passwordsDoNotMatch": "Passwords do not match",
+		"passwordTooShort": "Password must be at least 8 characters long",
+		"passwordUpdated": "Password updated successfully",
+		"updatePassword": "Update password"
 	}
 }

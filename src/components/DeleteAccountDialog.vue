@@ -11,7 +11,7 @@
         <q-input
           v-model="deletePassword"
           :disable="userStore.isLoading"
-          :label="$t('labels.password')"
+          :label="$t('passwords.password')"
           lazy-rules
           outlined
           :rules="[(val) => !!val || $t('errors.valueRequired')]"
@@ -71,7 +71,7 @@ const handleDeleteAccount = async () => {
   try {
     await userStore.deleteAccount(deletePassword.value);
 
-    Notifier.quickPositive('label.accountDeleted');
+    Notifier.quickPositive('labels.accountDeleted');
     modelValue.value = !modelValue.value;
     // Redirect to home page
     await router.push({ name: 'home' });

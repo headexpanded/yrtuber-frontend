@@ -42,7 +42,7 @@
         <q-input
           v-model="formData.password"
           :disable="authStore.isLoading"
-          :label="$t('labels.password')"
+          :label="$t('passwords.password')"
           lazy-rules
           outlined
           :rules="[
@@ -55,12 +55,12 @@
         <q-input
           v-model="formData.password_confirmation"
           :disable="authStore.isLoading"
-          :label="$t('labels.confirmPassword')"
+          :label="$t('passwords.confirmPassword')"
           lazy-rules
           outlined
           :rules="[
             (val) => !!val || 'Please confirm your password',
-            (val) => val === formData.password || 'Passwords do not match',
+            (val) => val === formData.password || $t('passwords.passwordsDoNotMatch'),
           ]"
           type="password"
         />
@@ -116,7 +116,7 @@ const formData = ref<RegisterCredentials>({
 
 /* =========== METHODS =========== */
 const handleRegister = async () => {
-  if (registerForm === null) {
+  if (registerForm.value === null) {
     return;
   }
 

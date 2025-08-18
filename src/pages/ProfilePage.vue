@@ -14,7 +14,7 @@
               narrow-indicator
             >
               <q-tab name="profile" :label="$t('labels.profile')" />
-              <q-tab name="password" :label="$t('labels.password')" />
+              <q-tab name="password" :label="$t('passwords.password')" />
               <q-tab name="danger" :label="$t('labels.dangerZone')" />
             </q-tabs>
             <q-tab-panels v-model="activeTab" animated>

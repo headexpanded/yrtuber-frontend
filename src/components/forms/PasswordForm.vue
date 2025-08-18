@@ -11,7 +11,7 @@
     <q-input
       v-model="formData.current_password"
       :disable="userStore.isLoading"
-      :label="$t('labels.currentPassword')"
+      :label="$t('passwords.currentPassword')"
       :type="showPassword.current ? 'text' : 'password'"
       outlined
       :rules="[(val) => !!val || $t('errors.valueRequired')]"
@@ -23,13 +23,13 @@
 
     <q-input
       v-model="formData.password"
-      :label="$t('labels.newPassword')"
+      :label="$t('passwords.newPassword')"
       :type="showPassword.new ? 'text' : 'password'"
       outlined
       lazy-rules
       :rules="[
         (val) => !!val || $t('errors.valueRequired'),
-        (val) => val.length >= 8 || $t('errors.passwordTooShort'),
+        (val) => val.length >= 8 || $t('passwords.passwordTooShort'),
       ]"
       :disable="userStore.isLoading"
     >
@@ -39,12 +39,12 @@
     </q-input>
     <q-input
       v-model="formData.password_confirmation"
-      :label="$t('labels.confirmPassword')"
+      :label="$t('passwords.confirmPassword')"
       :type="showPassword.confirm ? 'text' : 'password'"
       outlined
       :rules="[
-        (val) => !!val || $t('errors.confirmPassword'),
-        (val) => val === formData.password || $t('errors.passwordsDoNotMatch'),
+        (val) => !!val || $t('passwords.confirmPassword'),
+        (val) => val === formData.password || $t('passwords.passwordsDoNotMatch'),
       ]"
       :disable="userStore.isLoading"
     >
@@ -125,7 +125,7 @@ const handleUpdatePassword = async () => {
   try {
     await userStore.updatePassword(formData.value);
 
-    Notifier.quickPositive('labels.passwordUpdated');
+    Notifier.quickPositive('passwords.passwordUpdated');
 
     // Clear password form
     formData.value.current_password = '';

@@ -1,14 +1,8 @@
 import { NotifyCustomType } from 'boot/notify';
-import { Notify } from 'quasar';
+import { Notify, type QNotifyAction } from 'quasar';
 import { i18n } from "boot/i18n";
 
 export type MessageOptions = Record<string, unknown>;
-
-export type QNotifyAction = {
-  icon: string;
-  color: string;
-  round: boolean;
-};
 
 export class Notifier {
   static #notify(
