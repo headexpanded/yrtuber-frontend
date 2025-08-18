@@ -1,7 +1,8 @@
+import { NotifyCustomType } from 'boot/notify';
 import { Notify } from 'quasar';
-import { NotifyCustomType } from "boot/notify";
 
 export type MessageOptions = Record<string, unknown>;
+
 export type QNotifyAction = {
   icon: string;
   color: string;
@@ -12,8 +13,9 @@ export class Notifier {
   static #notify(
     type: string,
     messageKey: string,
-    actions: QNotifyAction[] = []
+    actions: QNotifyAction[] = [],
   ) {
+
     const notifyActions =
       actions.length > 0
         ? actions
@@ -24,10 +26,9 @@ export class Notifier {
               round: true,
             },
           ];
-
     Notify.create({
       type,
-      message: messageKey, // For now, using direct message until i18n is set up
+      message: messageKey, // Assuming messageKey is already localized
       actions: notifyActions,
       classes: 'white-space-pre-line',
     });

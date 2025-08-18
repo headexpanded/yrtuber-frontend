@@ -57,6 +57,7 @@
   </q-card>
 </template>
 <script setup lang="ts">
+
 import { QForm } from 'quasar';
 import type { LoginCredentials } from 'src/types/user';
 import { useAuthStore } from 'stores/auth-store';
@@ -70,18 +71,21 @@ import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
 const router = useRouter();
+
 /* ============= REFS ============ */
+
 const loginForm = ref<QForm | null>(null);
 const formData = ref<LoginCredentials>({
   username: '',
   password: '',
 });
+
 /* ============ HOOKS ============ */
 
 /* =========== METHODS =========== */
 
 const handleLogin = async () => {
-  if (loginForm === null) {
+  if (loginForm.value === null) {
     return;
   }
 

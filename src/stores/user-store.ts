@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { UserApiService } from 'src/services/userApi';
-import type { UpdateProfileData, UpdatePasswordData } from 'src/types/user';
+import type { UpdatePasswordData, UpdateProfileData } from 'src/types/user';
 
 type State = {
   isLoading: boolean;
@@ -50,10 +50,6 @@ export const useUserStore = defineStore<'user', State, Getters, Actions>('user',
         const authStore = useAuthStore();
         authStore.user = updatedUser;
 
-        // Debug: log the updated user data
-        console.log('Profile updated successfully:', updatedUser);
-
-        this.successMessage = 'Profile updated successfully';
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Failed to update profile';
         throw err;

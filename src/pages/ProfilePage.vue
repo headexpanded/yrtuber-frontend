@@ -23,118 +23,8 @@
             <q-tab-panels v-model="activeTab" animated>
               <!-- Profile Tab -->
               <q-tab-panel name="profile">
-                <q-form @submit="handleUpdateProfile" class="q-gutter-md">
-                  <q-input
-                    v-model="profileForm.username"
-                    :label="$t('labels.username')"
-                    outlined
-                    lazy-rules
-                    :rules="[
-                      (val) => !!val || 'Username is required',
-                      (val) => val.length >= 3 || 'Username must be at least 3 characters',
-                      (val) =>
-                        /^[a-zA-Z0-9_]+$/.test(val) ||
-                        'Username can only contain letters, numbers, and underscores',
-                    ]"
-                    :disable="userStore.isLoading"
-                  />
-
-                  <q-input
-                    v-model="profileForm.bio"
-                    :label="$t('labels.bio')"
-                    type="textarea"
-                    outlined
-                    lazy-rules
-                    :rules="[
-                      (val) => !val || val.length <= 1000 || 'Bio must be 1000 characters or less',
-                    ]"
-                    :disable="userStore.isLoading"
-                  />
-
-                  <q-input
-                    v-model="profileForm.website"
-                    label="Website"
-                    type="url"
-                    outlined
-                    lazy-rules
-                    :rules="[
-                      (val) => !val || /^https?:\/\/.+/.test(val) || 'Please enter a valid URL',
-                    ]"
-                    :disable="userStore.isLoading"
-                  />
-
-                  <div class="text-h6 q-mb-sm">Social Links</div>
-
-                  <div class="row q-gutter-md">
-                    <div class="col-12 col-sm-6">
-                      <q-input
-                        v-model="profileForm.social_links.twitter"
-                        label="Twitter"
-                        outlined
-                        :disable="userStore.isLoading"
-                      />
-                    </div>
-                    <div class="col-12 col-sm-6">
-                      <q-input
-                        v-model="profileForm.social_links.facebook"
-                        label="Facebook"
-                        outlined
-                        :disable="userStore.isLoading"
-                      />
-                    </div>
-                    <div class="col-12 col-sm-6">
-                      <q-input
-                        v-model="profileForm.social_links.instagram"
-                        label="Instagram"
-                        outlined
-                        :disable="userStore.isLoading"
-                      />
-                    </div>
-                    <div class="col-12 col-sm-6">
-                      <q-input
-                        v-model="profileForm.social_links.youtube"
-                        label="YouTube"
-                        outlined
-                        :disable="userStore.isLoading"
-                      />
-                    </div>
-                    <div class="col-12 col-sm-6">
-                      <q-input
-                        v-model="profileForm.social_links.linkedin"
-                        label="LinkedIn"
-                        outlined
-                        :disable="userStore.isLoading"
-                      />
-                    </div>
-                    <div class="col-12 col-sm-6">
-                      <q-input
-                        v-model="profileForm.social_links.github"
-                        label="GitHub"
-                        outlined
-                        :disable="userStore.isLoading"
-                      />
-                    </div>
-                  </div>
-
-                  <div v-if="userStore.error" class="text-negative text-center q-mb-md">
-                    {{ userStore.error }}
-                  </div>
-
-                  <div v-if="userStore.hasSuccess" class="text-positive text-center q-mb-md">
-                    {{ userStore.successMessage }}
-                  </div>
-
-                  <q-btn
-                    type="submit"
-                    :label="$t('labels.updateProfile')"
-                    no-caps
-                    color="primary"
-                    :loading="userStore.isLoading"
-                    :disable="userStore.isLoading"
-                  />
-                </q-form>
+                <ProfileForm />
               </q-tab-panel>
-
               <!-- Password Tab -->
               <q-tab-panel name="password">
                 <q-form @submit="handleUpdatePassword" class="q-gutter-md">
@@ -250,85 +140,25 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from 'src/stores/auth-store';
+import ProfileForm from 'components/forms/ProfileForm.vue';
 import { useUserStore } from 'src/stores/user-store';
-import type { UpdatePasswordData, UpdateProfileData } from 'src/types/user';
+import type { UpdatePasswordData } from 'src/types/user';
 import { Notifier } from 'src/utils/Notifier';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const authStore = useAuthStore();
 const userStore = useUserStore();
 
 const activeTab = ref('profile');
 const showDeleteDialog = ref(false);
 const deletePassword = ref('');
 
-const profileForm = ref<UpdateProfileData>({
-  username: '',
-  bio: '',
-  website: '',
-  social_links: {
-    twitter: '',
-    facebook: '',
-    instagram: '',
-    youtube: '',
-    tiktok: '',
-    linkedin: '',
-    github: '',
-  },
-});
-
 const passwordForm = ref<UpdatePasswordData>({
   current_password: '',
   password: '',
-  password_confirmation: '',
+  password_confirmation: ''
 });
-
-
-onMounted(async () => {
-  if (!authStore.user) {
-    await authStore.fetchUser();
-  }
-
-  if (authStore.user) {
-    profileForm.value.username = authStore.user.username;
-    if (authStore.user.profile) {
-      profileForm.value.bio = authStore.user.profile.bio || '';
-      profileForm.value.website = authStore.user.profile.website || '';
-      if (authStore.user.profile.social_links) {
-        profileForm.value.social_links = {
-          ...profileForm.value.social_links,
-          ...authStore.user.profile.social_links,
-        };
-      }
-    }
-  }
-});
-
-const handleUpdateProfile = async () => {
-  try {
-    await userStore.updateProfile(profileForm.value);
-    if (authStore.user) {
-      profileForm.value.username = authStore.user.username;
-      if (authStore.user.profile) {
-        profileForm.value.bio = authStore.user.profile.bio || '';
-        profileForm.value.website = authStore.user.profile.website || '';
-        if (authStore.user.profile.social_links) {
-          profileForm.value.social_links = {
-            ...profileForm.value.social_links,
-            ...authStore.user.profile.social_links,
-          };
-        }
-      }
-    }
-
-    Notifier.quickPositive('profile.update.success');
-  } catch (error) {
-    console.error('Profile update error:', error);
-  }
-};
 
 const handleUpdatePassword = async () => {
   try {
@@ -352,7 +182,7 @@ const handleDeleteAccount = async () => {
     Notifier.quickPositive('profile.delete.success');
 
     // Redirect to home page
-    await router.push('/');
+    await router.push({ name: 'home' });
   } catch (error) {
     console.error('Account deletion error:', error);
   } finally {
