@@ -1,6 +1,6 @@
 import { api } from 'boot/axios';
 import { defineStore } from 'pinia';
-import { UserApiService } from '../services/userApi';
+import { UserApiService } from 'src/services/userApi';
 import type { LoginCredentials, RegisterCredentials, User } from "src/types/user";
 
 type State = {
@@ -19,7 +19,6 @@ type Getters = {
 
 type Actions = {
   init: () => Promise<void>;
-  ensureInitialized: () => Promise<void>;
   login: (credentials: LoginCredentials) => Promise<void>;
   logout: () => Promise<void>;
   register: (credentials: RegisterCredentials) => Promise<void>;
@@ -55,17 +54,13 @@ export const useAuthStore = defineStore<'auth', State, Getters, Actions>('auth',
       }
     },
 
-    async ensureInitialized() {
-      await this.init();
-    },
-
     async login(credentials: LoginCredentials) {
       this.isLoading = true;
       this.error = null;
 
       try {
         // Ensure CSRF token is fetched before login
-        await this.ensureInitialized();
+        await this.init();
 
         const response = await UserApiService.login(credentials);
         this.user = response.user;
@@ -98,7 +93,7 @@ export const useAuthStore = defineStore<'auth', State, Getters, Actions>('auth',
 
       try {
         // Ensure CSRF token is fetched before registration
-        await this.ensureInitialized();
+        await this.init();
 
         const response = await UserApiService.register(credentials);
         this.user = response.user;
@@ -117,11 +112,14 @@ export const useAuthStore = defineStore<'auth', State, Getters, Actions>('auth',
 
       try {
         // Ensure CSRF token is fetched before fetching user
-        await this.ensureInitialized();
+        await this.init();
 
+        console.log('Fetching user data...');
         this.user = await UserApiService.getCurrentUser();
+        console.log('User data fetched:', this.user);
         this.csrfFetched = true;
       } catch (err) {
+        console.error('Error fetching user:', err);
         this.error = err instanceof Error ? err.message : 'Failed to fetch user';
         this.clearState();
         throw err;

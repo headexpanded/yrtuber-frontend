@@ -246,10 +246,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from 'stores/auth-store';
-import { useUserStore } from 'stores/user-store';
-import { Notifier } from '../utils/notifier';
-import type { UpdateProfileData, UpdatePasswordData } from "src/types/user.ts"
+import { useAuthStore } from 'src/stores/auth-store';
+import { useUserStore } from 'src/stores/user-store';
+import { Notifier } from 'src/utils/notifier';
+import type { UpdateProfileData, UpdatePasswordData } from "src/types/user";
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -282,7 +282,16 @@ const passwordForm = ref<UpdatePasswordData>({
 });
 
 // Load current user data
-onMounted(() => {
+onMounted(async () => {
+  console.log('ProfilePage mounted, authStore.user:', authStore.user);
+
+  // Ensure user data is loaded
+  if (!authStore.user) {
+    console.log('No user data, fetching...');
+    await authStore.fetchUser();
+    console.log('After fetchUser, authStore.user:', authStore.user);
+  }
+
   if (authStore.user) {
     profileForm.value.username = authStore.user.username;
     if (authStore.user.profile) {
