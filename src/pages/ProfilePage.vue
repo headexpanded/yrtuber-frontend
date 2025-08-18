@@ -4,21 +4,20 @@
       <div class="col-12 col-md-8 col-lg-6">
         <q-card>
           <q-card-section class="text-center">
-            <h4 class="text-h4 q-mb-md">Profile Settings</h4>
+            <h4 class="text-h4 q-mb-md">{{ $t('labels.profileSettings') }}</h4>
           </q-card-section>
-
           <q-card-section>
             <q-tabs
               v-model="activeTab"
-              class="text-grey"
-              active-color="primary"
-              indicator-color="primary"
               align="justify"
+              active-color="primary"
+              class="text-grey"
+              indicator-color="primary"
               narrow-indicator
             >
-              <q-tab name="profile" label="Profile" />
-              <q-tab name="password" label="Password" />
-              <q-tab name="danger" label="Danger Zone" />
+              <q-tab name="profile" :label="$t('labels.profile')" />
+              <q-tab name="password" :label="$t('labels.password')" />
+              <q-tab name="danger" :label="$t('labels.dangerZone')" />
             </q-tabs>
 
             <q-tab-panels v-model="activeTab" animated>
@@ -27,8 +26,9 @@
                 <q-form @submit="handleUpdateProfile" class="q-gutter-md">
                   <q-input
                     v-model="profileForm.username"
-                    label="Username"
+                    :label="$t('labels.username')"
                     outlined
+                    lazy-rules
                     :rules="[
                       (val) => !!val || 'Username is required',
                       (val) => val.length >= 3 || 'Username must be at least 3 characters',
@@ -41,9 +41,10 @@
 
                   <q-input
                     v-model="profileForm.bio"
-                    label="Bio"
+                    :label="$t('labels.bio')"
                     type="textarea"
                     outlined
+                    lazy-rules
                     :rules="[
                       (val) => !val || val.length <= 1000 || 'Bio must be 1000 characters or less',
                     ]"
@@ -55,6 +56,7 @@
                     label="Website"
                     type="url"
                     outlined
+                    lazy-rules
                     :rules="[
                       (val) => !val || /^https?:\/\/.+/.test(val) || 'Please enter a valid URL',
                     ]"
@@ -124,7 +126,8 @@
 
                   <q-btn
                     type="submit"
-                    label="Update Profile"
+                    :label="$t('labels.updateProfile')"
+                    no-caps
                     color="primary"
                     :loading="userStore.isLoading"
                     :disable="userStore.isLoading"
@@ -137,7 +140,7 @@
                 <q-form @submit="handleUpdatePassword" class="q-gutter-md">
                   <q-input
                     v-model="passwordForm.current_password"
-                    label="Current Password"
+                    :label="$t('labels.currentPassword')"
                     type="password"
                     outlined
                     :rules="[(val) => !!val || 'Current password is required']"
@@ -146,9 +149,10 @@
 
                   <q-input
                     v-model="passwordForm.password"
-                    label="New Password"
+                    :label="$t('labels.newPassword')"
                     type="password"
                     outlined
+                    lazy-rules
                     :rules="[
                       (val) => !!val || 'New password is required',
                       (val) => val.length >= 8 || 'Password must be at least 8 characters',
@@ -158,7 +162,7 @@
 
                   <q-input
                     v-model="passwordForm.password_confirmation"
-                    label="Confirm New Password"
+                    :label="$t('labels.confirmNewPassword')"
                     type="password"
                     outlined
                     :rules="[
@@ -249,7 +253,7 @@
 import { useAuthStore } from 'src/stores/auth-store';
 import { useUserStore } from 'src/stores/user-store';
 import type { UpdatePasswordData, UpdateProfileData } from 'src/types/user';
-import { Notifier } from 'src/utils/notifier';
+import { Notifier } from 'src/utils/Notifier';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 

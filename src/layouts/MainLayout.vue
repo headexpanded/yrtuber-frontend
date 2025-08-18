@@ -5,18 +5,20 @@
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-          <router-link to="/" class="text-white text-decoration-none"> yrtuber </router-link>
+          <router-link to="/" class="text-white text-decoration-none">
+            {{ $t('labels.appName') }}</router-link
+          >
         </q-toolbar-title>
 
         <!-- User Menu -->
         <div v-if="authStore.isAuthenticated" class="q-ml-auto">
-          <q-btn-dropdown flat color="white" :label="authStore.username || 'User'">
+          <q-btn-dropdown flat color="white" :label="authStore.username || ''" no-caps>
             <q-list>
               <q-item clickable v-close-popup @click="goToProfile">
                 <q-item-section avatar>
                   <q-icon name="person" />
                 </q-item-section>
-                <q-item-section>Profile</q-item-section>
+                <q-item-section>{{ $t('labels.profile') }}</q-item-section>
               </q-item>
 
               <q-separator />
@@ -25,7 +27,7 @@
                 <q-item-section avatar>
                   <q-icon name="logout" />
                 </q-item-section>
-                <q-item-section>Logout</q-item-section>
+                <q-item-section>{{ $t('labels.logout') }}</q-item-section>
               </q-item>
             </q-list>
           </q-btn-dropdown>
@@ -33,8 +35,8 @@
 
         <!-- Auth Buttons -->
         <div v-else class="q-ml-auto">
-          <q-btn flat color="white" label="Login" to="/auth/login" />
-          <q-btn flat color="white" label="Register" to="/auth/register" />
+          <q-btn flat color="white" :label="$t('labels.login')" no-caps to="/auth/login" />
+          <q-btn flat color="white" :label="$t('labels.register')" no-caps to="/auth/register" />
         </div>
       </q-toolbar>
     </q-header>
@@ -54,7 +56,7 @@
           <q-item-section avatar>
             <q-icon name="person" />
           </q-item-section>
-          <q-item-section>Profile</q-item-section>
+          <q-item-section>{{$t('labels.profile')}}</q-item-section>
         </q-item>
 
         <q-separator />
@@ -65,21 +67,21 @@
           <q-item-section avatar>
             <q-icon name="login" />
           </q-item-section>
-          <q-item-section>Login</q-item-section>
+          <q-item-section>{{$t('labels.login')}}</q-item-section>
         </q-item>
 
         <q-item v-if="!authStore.isAuthenticated" clickable v-ripple to="/auth/register">
           <q-item-section avatar>
             <q-icon name="person_add" />
           </q-item-section>
-          <q-item-section>Register</q-item-section>
+          <q-item-section>{{$t('labels.register')}}</q-item-section>
         </q-item>
 
         <q-item v-if="authStore.isAuthenticated" clickable v-ripple @click="handleLogout">
           <q-item-section avatar>
             <q-icon name="logout" />
           </q-item-section>
-          <q-item-section>Logout</q-item-section>
+          <q-item-section>{{$t('labels.logout')}}</q-item-section>
         </q-item>
       </q-list>
     </q-drawer>

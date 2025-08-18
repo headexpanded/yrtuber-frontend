@@ -1,0 +1,22 @@
+{
+	"labels": {
+		"appName": "yrtuber",
+		"bio": "Bio",
+		"confirmPassword": "Confirm new password",
+		"currentPassword": "Current password",
+		"dangerZone": "Danger zone",
+		"email": "Email",
+		"emailAddress": "Email address",
+		"login": "Login",
+		"logout": "Logout",
+		"newPassword": "New password",
+		"noAccount": "Don't have an account?",
+		"password": "Password",
+		"profile": "Profile",
+		"profileSettings": "Profile settings",
+		"register": "Register",
+		"registerHere": "Register here",
+		"updateProfile": "Update profile",
+		"username": "Username"
+	}
+}

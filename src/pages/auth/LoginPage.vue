@@ -2,24 +2,26 @@
   <q-page class="flex flex-center">
     <q-card class="auth-card">
       <q-card-section class="text-center">
-        <h4 class="text-h4 q-mb-md">Login</h4>
+        <h4 class="text-h4 q-mb-md">{{$t('labels.login')}}</h4>
       </q-card-section>
 
       <q-card-section>
         <q-form @submit="handleLogin" class="q-gutter-md">
           <q-input
             v-model="form.username"
-            label="Username"
+            :label="$t('labels.username')"
             outlined
+            lazy-rules
             :rules="[val => !!val || 'Username is required']"
             :disable="authStore.isLoading"
           />
 
           <q-input
             v-model="form.password"
-            label="Password"
+            :label="$t('labels.password')"
             type="password"
             outlined
+            lazy-rules
             :rules="[val => !!val || 'Password is required']"
             :disable="authStore.isLoading"
           />
@@ -30,7 +32,8 @@
 
           <q-btn
             type="submit"
-            label="Login"
+            :label="$t('labels.login')"
+            no-caps
             color="primary"
             class="full-width"
             :loading="authStore.isLoading"
@@ -41,8 +44,8 @@
 
       <q-card-section class="text-center">
         <p class="q-mb-sm">
-          Don't have an account?
-          <router-link to="/auth/register" class="text-primary">Register here</router-link>
+          {{$t('labels.noAccount')}}
+          <router-link to="/auth/register" class="text-primary">{{$t('labels.registerHere')}}</router-link>
         </p>
       </q-card-section>
     </q-card>
