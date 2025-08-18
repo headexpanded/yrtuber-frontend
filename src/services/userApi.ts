@@ -7,7 +7,7 @@ import type {
   UpdatePasswordData,
   AuthResponse,
   ApiError
-  } from "src/types/user.ts";
+} from "src/types/user";
 
 // Extended error type for axios errors
 type AxiosError = {
@@ -60,7 +60,7 @@ export class UserApiService {
   static async getCurrentUser(): Promise<User> {
     try {
       const response = await api.get('/api/user', { withCredentials: true });
-      return response.data;
+      return response.data.data; // Extract user data from nested data object
     } catch (error: unknown) {
       const apiError = this.handleApiError(error as AxiosError);
       throw new Error(apiError.message);
