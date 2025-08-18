@@ -15,7 +15,7 @@
       lazy-rules
       outlined
       :rules="[
-        (val) => !!val || 'Username is required',
+        (val) => !!val || $t('errors.valueRequired'),
         (val) => val.length >= 3 || 'Username must be at least 3 characters',
         (val) =>
           /^[a-zA-Z0-9_]+$/.test(val) ||
@@ -105,12 +105,12 @@
     </div>
 
     <q-btn
-      type="submit"
-      :label="$t('labels.updateProfile')"
-      no-caps
       color="primary"
-      :loading="userStore.isLoading"
       :disable="userStore.isLoading"
+      :label="$t('labels.updateProfile')"
+      :loading="userStore.isLoading"
+      no-caps
+      type="submit"
     />
   </q-form>
 </template>

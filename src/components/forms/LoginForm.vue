@@ -26,7 +26,7 @@
           :label="$t('labels.password')"
           lazy-rules
           outlined
-          :rules="[(val) => !!val || 'Password is required']"
+          :rules="[(val) => !!val || $t('errors.valueRequired')]"
           type="password"
         />
 

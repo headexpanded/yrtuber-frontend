@@ -3,9 +3,7 @@
     <div class="row justify-center">
       <div class="col-12 col-md-8 col-lg-6">
         <q-card>
-          <q-card-section class="text-center">
-            <h4 class="text-h4 q-mb-md">{{ $t('labels.profileSettings') }}</h4>
-          </q-card-section>
+          <q-card-section class="text-center">{{ $t('labels.profileSettings') }} </q-card-section>
           <q-card-section>
             <q-tabs
               v-model="activeTab"
@@ -27,57 +25,7 @@
               </q-tab-panel>
               <!-- Password Tab -->
               <q-tab-panel name="password">
-                <q-form @submit="handleUpdatePassword" class="q-gutter-md">
-                  <q-input
-                    v-model="passwordForm.current_password"
-                    :label="$t('labels.currentPassword')"
-                    type="password"
-                    outlined
-                    :rules="[(val) => !!val || 'Current password is required']"
-                    :disable="userStore.isLoading"
-                  />
-
-                  <q-input
-                    v-model="passwordForm.password"
-                    :label="$t('labels.newPassword')"
-                    type="password"
-                    outlined
-                    lazy-rules
-                    :rules="[
-                      (val) => !!val || 'New password is required',
-                      (val) => val.length >= 8 || 'Password must be at least 8 characters',
-                    ]"
-                    :disable="userStore.isLoading"
-                  />
-
-                  <q-input
-                    v-model="passwordForm.password_confirmation"
-                    :label="$t('labels.confirmNewPassword')"
-                    type="password"
-                    outlined
-                    :rules="[
-                      (val) => !!val || 'Please confirm your new password',
-                      (val) => val === passwordForm.password || 'Passwords do not match',
-                    ]"
-                    :disable="userStore.isLoading"
-                  />
-
-                  <div v-if="userStore.error" class="text-negative text-center q-mb-md">
-                    {{ userStore.error }}
-                  </div>
-
-                  <div v-if="userStore.hasSuccess" class="text-positive text-center q-mb-md">
-                    {{ userStore.successMessage }}
-                  </div>
-
-                  <q-btn
-                    type="submit"
-                    label="Update Password"
-                    color="primary"
-                    :loading="userStore.isLoading"
-                    :disable="userStore.isLoading"
-                  />
-                </q-form>
+                <PasswordForm />
               </q-tab-panel>
 
               <!-- Danger Zone Tab -->
@@ -140,9 +88,9 @@
 </template>
 
 <script setup lang="ts">
+import PasswordForm from 'components/forms/PasswordForm.vue';
 import ProfileForm from 'components/forms/ProfileForm.vue';
 import { useUserStore } from 'src/stores/user-store';
-import type { UpdatePasswordData } from 'src/types/user';
 import { Notifier } from 'src/utils/Notifier';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -153,27 +101,6 @@ const userStore = useUserStore();
 const activeTab = ref('profile');
 const showDeleteDialog = ref(false);
 const deletePassword = ref('');
-
-const passwordForm = ref<UpdatePasswordData>({
-  current_password: '',
-  password: '',
-  password_confirmation: ''
-});
-
-const handleUpdatePassword = async () => {
-  try {
-    await userStore.updatePassword(passwordForm.value);
-
-    Notifier.quickPositive('profile.password.success');
-
-    // Clear password form
-    passwordForm.value.current_password = '';
-    passwordForm.value.password = '';
-    passwordForm.value.password_confirmation = '';
-  } catch (error) {
-    console.error('Password update error:', error);
-  }
-};
 
 const handleDeleteAccount = async () => {
   try {
