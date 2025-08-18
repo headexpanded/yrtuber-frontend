@@ -27,19 +27,18 @@
               <q-tab-panel name="password">
                 <PasswordForm />
               </q-tab-panel>
-
               <!-- Danger Zone Tab -->
               <q-tab-panel name="danger">
                 <div class="text-center q-pa-md">
                   <q-icon name="warning" color="negative" size="4rem" />
-                  <h6 class="text-h6 q-mt-md q-mb-sm">Danger Zone</h6>
+                  <h6 class="text-h6 q-mt-md q-mb-sm">{{ $t('labels.dangerZone') }}</h6>
                   <p class="text-grey q-mb-lg">
-                    Once you delete your account, there is no going back. Please be certain.
+                    {{ $t('labels.deletePasswordWarning') }}
                   </p>
                   <q-btn
                     color="negative"
                     :disable="userStore.isLoading"
-                    label="Delete Account"
+                    :label="$t('labels.deleteAccount')"
                     no-caps
                     @click="showDeleteDialog = true"
                   />

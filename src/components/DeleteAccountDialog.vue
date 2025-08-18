@@ -3,18 +3,19 @@
     <q-card>
       <q-card-section class="row items-center">
         <q-avatar icon="warning" color="negative" text-color="white" />
-        <span class="q-ml-sm">Delete Account</span>
+        <span class="q-ml-sm">{{ $t('labels.deleteAccount') }}</span>
       </q-card-section>
 
       <q-card-section>
-        <p>This action cannot be undone. Please enter your password to confirm.</p>
+        <p>{{ $t('labels.confirmDeleteAccount') }}</p>
         <q-input
           v-model="deletePassword"
-          label="Password"
-          :type="showPassword ? 'text' : 'password'"
+          :disable="userStore.isLoading"
+          :label="$t('labels.password')"
+          lazy-rules
           outlined
           :rules="[(val) => !!val || $t('errors.valueRequired')]"
-          :disable="userStore.isLoading"
+          :type="showPassword ? 'text' : 'password'"
         >
           <template v-slot:append>
             <TogglePassword v-model="showPassword" />
@@ -23,14 +24,14 @@
       </q-card-section>
 
       <q-card-actions align="right">
-        <q-btn flat label="Cancel" color="primary" v-close-popup />
+        <q-btn flat :label="$t('labels.cancel')" color="primary" v-close-popup />
         <q-btn
-          flat
-          label="Delete Account"
           color="negative"
-          @click="handleDeleteAccount"
-          :loading="userStore.isLoading"
           :disable="userStore.isLoading"
+          flat
+          :label="$t('labels.deleteAccount')"
+          :loading="userStore.isLoading"
+          @click="handleDeleteAccount"
         />
       </q-card-actions>
     </q-card>
@@ -70,7 +71,7 @@ const handleDeleteAccount = async () => {
   try {
     await userStore.deleteAccount(deletePassword.value);
 
-    Notifier.quickPositive('profile.delete.success');
+    Notifier.quickPositive('label.accountDeleted');
     modelValue.value = !modelValue.value;
     // Redirect to home page
     await router.push({ name: 'home' });

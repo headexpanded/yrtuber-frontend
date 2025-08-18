@@ -29,7 +29,7 @@
       lazy-rules
       :rules="[
         (val) => !!val || $t('errors.valueRequired'),
-        (val) => val.length >= 8 || 'Password must be at least 8 characters',
+        (val) => val.length >= 8 || $t('errors.passwordTooShort'),
       ]"
       :disable="userStore.isLoading"
     >
@@ -43,8 +43,8 @@
       :type="showPassword.confirm ? 'text' : 'password'"
       outlined
       :rules="[
-        (val) => !!val || 'Please confirm your new password',
-        (val) => val === formData.password || 'Passwords do not match',
+        (val) => !!val || $t('errors.confirmPassword'),
+        (val) => val === formData.password || $t('errors.passwordsDoNotMatch'),
       ]"
       :disable="userStore.isLoading"
     >
@@ -125,7 +125,7 @@ const handleUpdatePassword = async () => {
   try {
     await userStore.updatePassword(formData.value);
 
-    Notifier.quickPositive('profile.password.success');
+    Notifier.quickPositive('labels.passwordUpdated');
 
     // Clear password form
     formData.value.current_password = '';
