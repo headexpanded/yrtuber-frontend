@@ -21,6 +21,8 @@
 		"deletePasswordWarning": "Once you delete your account, there is no going back. Please be certain.",
 		"email": "Email",
 		"emailAddress": "Email address",
+		"following": "Following",
+		"home": "Home",
 		"login": "Login",
 		"logout": "Logout",
 		"noAccount": "Don't have an account?",
@@ -33,7 +35,8 @@
 		"updateProfile": "Update profile",
 		"username": "Username",
 		"usernameRequired": "Username is required",
-		"website": "Website"
+		"website": "Website",
+		"you": "You"
 	},
 	"passwords": {
 		"changePassword": "Change password",

@@ -1,91 +1,101 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="bg-primary text-white">
-      <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
-
+  <q-layout view="hHh lpR fFf">
+    <q-header class="bg-white">
+      <q-toolbar class="q-px-sm bg-white">
+        <q-btn
+          aria-label="Menu"
+          class="text-grey-8"
+          dense
+          flat
+          icon="menu"
+          round
+          @click="toggleLeftDrawer"
+        />
         <q-toolbar-title>
-          <router-link to="/" class="text-white text-decoration-none">
-            {{ $t('labels.appName') }}</router-link
-          >
+          <router-link :to="{ name: 'home' }" class="text-grey-8 text-decoration-none">
+            {{ $t('labels.appName') }}
+          </router-link>
         </q-toolbar-title>
-
         <!-- User Menu -->
-        <div v-if="authStore.isAuthenticated" class="q-ml-auto">
-          <q-btn-dropdown flat color="white" :label="authStore.username || ''" no-caps>
-            <q-list>
-              <q-item clickable v-close-popup @click="goToProfile">
-                <q-item-section avatar>
-                  <q-icon name="person" />
-                </q-item-section>
-                <q-item-section>{{ $t('labels.profile') }}</q-item-section>
-              </q-item>
-
-              <q-separator />
-
-              <q-item clickable v-close-popup @click="handleLogout">
-                <q-item-section avatar>
-                  <q-icon name="logout" />
-                </q-item-section>
-                <q-item-section>{{ $t('labels.logout') }}</q-item-section>
-              </q-item>
-            </q-list>
-          </q-btn-dropdown>
-        </div>
+        <q-btn-dropdown
+          v-if="authStore.isAuthenticated"
+          class="q-ml-auto"
+          flat
+          color="grey-8"
+          icon="person"
+          no-caps
+          outline
+        >
+          <q-list>
+            <q-item clickable v-close-popup @click="goToProfile">
+              <q-item-section avatar>
+                <q-icon name="person" />
+              </q-item-section>
+              <q-item-section>{{ $t('labels.you') }}</q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item clickable v-close-popup @click="handleLogout">
+              <q-item-section avatar>
+                <q-icon name="logout" />
+              </q-item-section>
+              <q-item-section>{{ $t('labels.logout') }}</q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
 
         <!-- Auth Buttons -->
         <div v-else class="q-ml-auto">
-          <q-btn flat color="white" :label="$t('labels.login')" no-caps to="/auth/login" />
-          <q-btn flat color="white" :label="$t('labels.register')" no-caps to="/auth/register" />
+          <q-btn flat color="grey-8" :label="$t('labels.login')" no-caps :to="{ name: 'login' }" />
+          <q-btn
+            flat
+            color="grey-8"
+            :label="$t('labels.register')"
+            no-caps
+            :to="{ name: 'register' }"
+          />
         </div>
       </q-toolbar>
     </q-header>
-
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+    <q-drawer v-model="leftDrawerOpen" bordered overlay>
       <q-list>
-        <q-item-label header> Navigation</q-item-label>
-
-        <q-item clickable v-ripple to="/" exact>
+        <q-item clickable :to="{ name: 'home' }" @click="toggleLeftDrawer">
           <q-item-section avatar>
             <q-icon name="home" />
           </q-item-section>
-          <q-item-section>Home</q-item-section>
+          <q-item-section>{{ $t('labels.home') }}</q-item-section>
         </q-item>
-
-        <q-item v-if="authStore.isAuthenticated" clickable v-ripple to="/profile">
+        <q-item v-if="authStore.isAuthenticated" clickable to="/profile">
           <q-item-section avatar>
             <q-icon name="person" />
           </q-item-section>
-          <q-item-section>{{$t('labels.profile')}}</q-item-section>
+          <q-item-section>{{ $t('labels.you') }}</q-item-section>
         </q-item>
-
-        <q-separator />
-
-        <q-item-label header> Account</q-item-label>
-
-        <q-item v-if="!authStore.isAuthenticated" clickable v-ripple to="/auth/login">
+        <q-item v-if="authStore.isAuthenticated" clickable to="/profile">
+          <q-item-section avatar>
+            <q-icon name="monitor" />
+          </q-item-section>
+          <q-item-section>{{ $t('labels.following') }}</q-item-section>
+        </q-item>
+        <q-item v-if="!authStore.isAuthenticated" clickable to="/auth/login">
           <q-item-section avatar>
             <q-icon name="login" />
           </q-item-section>
-          <q-item-section>{{$t('labels.login')}}</q-item-section>
+          <q-item-section>{{ $t('labels.login') }}</q-item-section>
         </q-item>
-
-        <q-item v-if="!authStore.isAuthenticated" clickable v-ripple to="/auth/register">
+        <q-item v-if="!authStore.isAuthenticated" clickable color="text-grey-8" to="/auth/register">
           <q-item-section avatar>
             <q-icon name="person_add" />
           </q-item-section>
-          <q-item-section>{{$t('labels.register')}}</q-item-section>
+          <q-item-section>{{ $t('labels.register') }}</q-item-section>
         </q-item>
-
-        <q-item v-if="authStore.isAuthenticated" clickable v-ripple @click="handleLogout">
+        <q-item v-if="authStore.isAuthenticated" clickable @click="handleLogout">
           <q-item-section avatar>
             <q-icon name="logout" />
           </q-item-section>
-          <q-item-section>{{$t('labels.logout')}}</q-item-section>
+          <q-item-section>{{ $t('labels.logout') }}</q-item-section>
         </q-item>
       </q-list>
     </q-drawer>
-
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -107,13 +117,13 @@ const toggleLeftDrawer = () => {
 };
 
 const goToProfile = async () => {
-  await router.push('/profile');
+  await router.push({ name: 'profile' });
 };
 
 const handleLogout = async () => {
   try {
     await authStore.logout();
-    await router.push('/');
+    await router.push({ name: 'home' });
   } catch (error) {
     console.error('Logout error:', error);
   }
