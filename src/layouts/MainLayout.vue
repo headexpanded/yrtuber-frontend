@@ -16,13 +16,31 @@
             {{ $t('labels.appName') }}
           </router-link>
         </q-toolbar-title>
+        <q-input
+          v-model="searchQuery"
+          class="q-pt-md input-width"
+          clearable
+          dense
+          :disable="authStore.isLoading"
+          outlined
+          :placeholder="$t('labels.search')"
+          rounded
+          @keyup.enter="handleSearch"
+        >
+          <q-separator vertical />
+          <template #append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+        <q-space />
         <!-- User Menu -->
         <q-btn-dropdown
           v-if="authStore.isAuthenticated"
           class="q-ml-auto"
-          flat
           color="grey-8"
+          flat
           icon="person"
+          :menu-offset="[-12, 8]"
           no-caps
           outline
         >
@@ -38,7 +56,7 @@
               <q-item-section avatar>
                 <q-icon name="logout" />
               </q-item-section>
-              <q-item-section>{{ $t('labels.logout') }}</q-item-section>
+              <q-item-section>{{ $t('labels.signOut') }}</q-item-section>
             </q-item>
           </q-list>
         </q-btn-dropdown>
@@ -49,7 +67,7 @@
           <q-btn
             flat
             color="grey-8"
-            :label="$t('labels.register')"
+            :label="$t('labels.signUp')"
             no-caps
             :to="{ name: 'register' }"
           />
@@ -64,35 +82,40 @@
           </q-item-section>
           <q-item-section>{{ $t('labels.home') }}</q-item-section>
         </q-item>
-        <q-item v-if="authStore.isAuthenticated" clickable to="/profile">
+        <q-item v-if="authStore.isAuthenticated" clickable :to="{ name: 'profile' }">
           <q-item-section avatar>
             <q-icon name="person" />
           </q-item-section>
           <q-item-section>{{ $t('labels.you') }}</q-item-section>
         </q-item>
-        <q-item v-if="authStore.isAuthenticated" clickable to="/profile">
+        <q-item v-if="authStore.isAuthenticated" clickable :to="{ name: 'profile' }">
           <q-item-section avatar>
             <q-icon name="monitor" />
           </q-item-section>
           <q-item-section>{{ $t('labels.following') }}</q-item-section>
         </q-item>
-        <q-item v-if="!authStore.isAuthenticated" clickable to="/auth/login">
+        <q-item v-if="!authStore.isAuthenticated" clickable :to="{ name: 'login' }">
           <q-item-section avatar>
             <q-icon name="login" />
           </q-item-section>
           <q-item-section>{{ $t('labels.login') }}</q-item-section>
         </q-item>
-        <q-item v-if="!authStore.isAuthenticated" clickable color="text-grey-8" to="/auth/register">
+        <q-item
+          v-if="!authStore.isAuthenticated"
+          clickable
+          color="text-grey-8"
+          :to="{ name: 'register' }"
+        >
           <q-item-section avatar>
             <q-icon name="person_add" />
           </q-item-section>
-          <q-item-section>{{ $t('labels.register') }}</q-item-section>
+          <q-item-section>{{ $t('labels.signUp') }}</q-item-section>
         </q-item>
         <q-item v-if="authStore.isAuthenticated" clickable @click="handleLogout">
           <q-item-section avatar>
             <q-icon name="logout" />
           </q-item-section>
-          <q-item-section>{{ $t('labels.logout') }}</q-item-section>
+          <q-item-section>{{ $t('labels.signOut') }}</q-item-section>
         </q-item>
       </q-list>
     </q-drawer>
@@ -111,6 +134,7 @@ const router = useRouter();
 const authStore = useAuthStore();
 
 const leftDrawerOpen = ref(false);
+const searchQuery = ref('');
 
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value;
@@ -128,10 +152,22 @@ const handleLogout = async () => {
     console.error('Logout error:', error);
   }
 };
+
+const handleSearch = () => {
+  if (searchQuery.value.trim() === '') {
+    return;
+  }
+  // Implement search logic here
+  console.log('Search query:', searchQuery.value);
+};
 </script>
 
 <style scoped lang="scss">
 .text-decoration-none {
   text-decoration: none;
+}
+
+.input-width {
+  width: 600px;
 }
 </style>

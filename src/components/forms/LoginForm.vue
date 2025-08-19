@@ -53,15 +53,14 @@
     <q-card-section class="text-center">
       <p class="q-mb-sm">
         {{ $t('labels.noAccount') }}
-        <router-link to="/auth/register" class="text-primary"
-          >{{ $t('labels.registerHere') }}
+        <router-link :to="{name: 'register'}" class="text-primary"
+          >{{ $t('labels.signUpHere') }}
         </router-link>
       </p>
     </q-card-section>
   </q-card>
 </template>
 <script setup lang="ts">
-
 import TogglePassword from 'components/TogglePassword.vue';
 import { QForm } from 'quasar';
 import type { LoginCredentials } from 'src/types/user';
@@ -103,7 +102,7 @@ const handleLogin = async () => {
 
   try {
     await authStore.login(formData.value);
-    await router.push({ name: "home" });
+    await router.push({ name: 'home' });
   } catch (error) {
     console.error('Login error:', error);
   }
