@@ -27,6 +27,7 @@
 		"cancel": "Cancel",
 		"categories": "Categories",
 		"confirmDeleteAccount": "This action cannot be undone. Please enter your password to confirm.",
+		"create": "Create",
 		"createAccount": "Create an account",
 		"createCollection": "Create a collection",
 		"dangerZone": "Danger zone",

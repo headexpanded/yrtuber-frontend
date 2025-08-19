@@ -33,6 +33,10 @@
           </template>
         </q-input>
         <q-space />
+        <div class="row q-px-md flex-center">
+          <q-btn color="grey-8" flat icon-right="add" :label="$t('labels.create')" rounded />
+          <q-btn color="grey-8" flat icon="notifications" rounded />
+        </div>
         <!-- User Menu -->
         <q-btn-dropdown
           v-if="authStore.isAuthenticated"
