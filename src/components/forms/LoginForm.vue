@@ -63,7 +63,7 @@
 <script setup lang="ts">
 import TogglePassword from 'components/TogglePassword.vue';
 import { QForm } from 'quasar';
-import type { LoginCredentials } from 'src/types/user';
+import type { LoginCredentials } from 'src/types/User';
 import { useAuthStore } from 'stores/auth-store';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';

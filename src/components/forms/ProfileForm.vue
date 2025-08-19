@@ -118,7 +118,7 @@
 </template>
 <script setup lang="ts">
 import { QForm } from 'quasar';
-import type { UpdateProfileData } from 'src/types/user';
+import type { UpdateProfileData } from 'src/types/User';
 import { Notifier } from 'src/utils/Notifier';
 import { useAuthStore } from 'stores/auth-store';
 import { useUserStore } from 'stores/user-store';

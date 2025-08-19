@@ -73,7 +73,7 @@
 <script setup lang="ts">
 import TogglePassword from 'components/TogglePassword.vue';
 import { QForm } from 'quasar';
-import type { UpdatePasswordData } from 'src/types/user';
+import type { UpdatePasswordData } from 'src/types/User';
 import { Notifier } from 'src/utils/Notifier';
 import { useUserStore } from 'stores/user-store';
 import { ref } from 'vue';
