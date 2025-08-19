@@ -1,5 +1,5 @@
 import { api } from 'boot/axios';
-import type { User } from 'src/types/user';
+import type { User } from 'src/types/User';
 
 export type AuthResponse = {
   user: User;

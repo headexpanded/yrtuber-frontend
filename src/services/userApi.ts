@@ -7,7 +7,7 @@ import type {
   UpdatePasswordData,
   AuthResponse,
   ApiError
-} from "src/types/user";
+} from "src/types/User";
 
 // Extended error type for axios errors
 type AxiosError = {
