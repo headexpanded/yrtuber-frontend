@@ -1,7 +1,9 @@
 <template>
   <q-page class="q-pa-md">
-    <h4 class="q-mt-none q-mb-sm">{{ username }}</h4>
-    <q-btn class="text-body2 text-grey-7 q-pl-none" dense flat no-caps :ripple="false">Start a collection</q-btn>
+    <h4 class="q-mt-none q-mb-sm text-weight-bold">{{ username }}</h4>
+    <q-btn class="text-body2 text-grey-7 q-pl-none" dense flat no-caps :ripple="false"
+      >{{ $t('labels.createCollection') }}
+    </q-btn>
     <div class="row justify-center">
       <div class="col-12 col-md-8 col-lg-6">
         <q-card>
