@@ -88,11 +88,26 @@
           </q-item-section>
           <q-item-section>{{ $t('labels.you') }}</q-item-section>
         </q-item>
-        <q-item v-if="authStore.isAuthenticated" clickable :to="{ name: 'profile' }">
+        <q-item v-if="authStore.isAuthenticated" clickable :to="{ name: 'following' }">
           <q-item-section avatar>
             <q-icon name="monitor" />
           </q-item-section>
           <q-item-section>{{ $t('labels.following') }}</q-item-section>
+        </q-item>
+      </q-list>
+        <q-separator />
+      <q-list>
+        <q-item v-if="authStore.isAuthenticated">
+          <!--<q-item-section avatar>-->
+          <!--  <q-icon name="monitor" />-->
+          <!--</q-item-section>-->
+          <q-item-section>{{ $t('labels.categories') }}</q-item-section>
+        </q-item>
+        <q-item v-if="authStore.isAuthenticated" clickable :to="{ name: 'profile' }">
+          <q-item-section avatar>
+            <q-icon name="person" />
+          </q-item-section>
+          <q-item-section>{{ $t('labels.you') }}</q-item-section>
         </q-item>
         <q-item v-if="!authStore.isAuthenticated" clickable :to="{ name: 'login' }">
           <q-item-section avatar>
@@ -111,12 +126,6 @@
           </q-item-section>
           <q-item-section>{{ $t('labels.signUp') }}</q-item-section>
         </q-item>
-        <q-item v-if="authStore.isAuthenticated" clickable @click="handleLogout">
-          <q-item-section avatar>
-            <q-icon name="logout" />
-          </q-item-section>
-          <q-item-section>{{ $t('labels.signOut') }}</q-item-section>
-        </q-item>
       </q-list>
     </q-drawer>
     <q-page-container>
@@ -127,7 +136,7 @@
 
 <script setup lang="ts">
 import { useAuthStore } from 'src/stores/auth-store';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -160,6 +169,17 @@ const handleSearch = () => {
   // Implement search logic here
   console.log('Search query:', searchQuery.value);
 };
+
+// Check authentication status on mount
+onMounted(async () => {
+  if (!authStore.user) {
+    try {
+      await authStore.checkAuth();
+    } catch (error) {
+      console.error('Auth check failed:', error);
+    }
+  }
+});
 </script>
 
 <style scoped lang="scss">
