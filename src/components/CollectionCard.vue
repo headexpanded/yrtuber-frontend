@@ -10,7 +10,7 @@
       <q-item-label lines="2">{{ props.item.description }}</q-item-label>
       <q-separator class="q-my-sm" />
       <div class="column">
-        <span class="text-caption text-grey-7">
+        <span class="text-body2 text-grey-7">
           {{ props.item.view_count }} {{ $t('labels.views') }} | {{ localItem.like_count }}
           {{ $t('labels.likes') }}
         </span>
