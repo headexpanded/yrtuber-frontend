@@ -91,7 +91,7 @@
 </template>
 <script setup lang="ts">
 import { QForm } from 'quasar';
-import type { RegisterCredentials } from 'src/types/user';
+import type { RegisterCredentials } from 'src/types/User';
 import { useAuthStore } from 'stores/auth-store';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
