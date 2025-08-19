@@ -7,14 +7,13 @@
       <q-item-label class="text-h6">{{ props.item.title }}</q-item-label>
     </q-card-section>
     <q-card-section class="q-py-sm">
-      <q-item-label lines="2">{{ props.item.description }}</q-item-label>
-      <q-separator class="q-my-sm" />
-      <div class="column">
-        <span class="text-body2 text-grey-7">
+      <q-item-label lines="2" class="q-pb-sm">{{ props.item.description }}</q-item-label>
+      <div class="column text-body2 text-grey-7">
+        <span>
           {{ props.item.view_count }} {{ $t('labels.views') }} | {{ localItem.like_count }}
           {{ $t('labels.likes') }}
         </span>
-        <span class="text-caption text-grey-7">
+        <span>
           {{ $t('labels.updated') }} {{ updatedAt(props.item.updated_at) }}
         </span>
       </div>

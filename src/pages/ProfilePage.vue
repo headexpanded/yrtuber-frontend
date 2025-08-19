@@ -1,5 +1,7 @@
 <template>
   <q-page class="q-pa-md">
+    <h4 class="q-mt-none q-mb-sm">{{ username }}</h4>
+    <q-btn class="text-body2 text-grey-7 q-pl-none" dense flat no-caps :ripple="false">Start a collection</q-btn>
     <div class="row justify-center">
       <div class="col-12 col-md-8 col-lg-6">
         <q-card>
@@ -57,10 +59,40 @@
 import DeleteAccountDialog from 'components/DeleteAccountDialog.vue';
 import PasswordForm from 'components/forms/PasswordForm.vue';
 import ProfileForm from 'components/forms/ProfileForm.vue';
+import { useAuthStore } from 'src/stores/auth-store';
 import { useUserStore } from 'src/stores/user-store';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
+/* ========= LOCAL SCOPE ========= */
+
+const authStore = useAuthStore();
 const userStore = useUserStore();
+
+/* ============= REFS ============ */
+
 const activeTab = ref('profile');
 const showDeleteDialog = ref(false);
+const username = ref('');
+
+/* ============ HOOKS ============ */
+
+onMounted(async () => {
+  if (!authStore.user) {
+    await authStore.fetchUser();
+  }
+
+  if (authStore.user) {
+    username.value = authStore.user.username;
+    // if (authStore.user.profile) {
+    //   formData.value.bio = authStore.user.profile.bio || '';
+    //   formData.value.website = authStore.user.profile.website || '';
+    //   if (authStore.user.profile.social_links) {
+    //     formData.value.social_links = {
+    //       ...formData.value.social_links,
+    //       ...authStore.user.profile.social_links,
+    //     };
+    //   }
+    // }
+  }
+});
 </script>
