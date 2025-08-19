@@ -1,17 +1,19 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <q-list v-for="item in collection">
-      <q-item-section>
-        <q-item-label>{{ item.title }}</q-item-label>
-        <q-item-label caption lines="2">{{ item.description }}</q-item-label>
-      </q-item-section>
-    </q-list>
+  <q-page class="q-pa-md">
+    <div class="row q-col-gutter-md">
+      <div v-for="item in collections" :key="item.id" class="col-xs-12 col-sm-6 col-md-4">
+        <CollectionCard :item="item" />
+      </div>
+    </div>
   </q-page>
 </template>
 <script setup lang="ts">
 /* ============ PROPS ============ */
 
+/* ============ PROPS ============ */
+/* ============ PROPS ============ */
 import { api } from 'boot/axios';
+import CollectionCard from 'components/CollectionCard.vue';
 import { onMounted, ref } from 'vue';
 
 defineProps<{
@@ -23,23 +25,25 @@ defineProps<{
 /* ========= LOCAL SCOPE ========= */
 
 /* ============= REFS ============ */
-const collection = ref({
-  id: 0,
-  name: '',
-  description: '',
-  image: '',
-  slug: '',
-  created_at: '',
-  updated_at: '',
-});
+const collections = ref<Collection[]>([]);
 /* ============ HOOKS ============ */
 
 onMounted(async () => {
-  collection.value = (await api.get('/api/collections/240', { withCredentials: true })).data;
-  console.log('Collection: ', collection.value);
+  const response = await api.get<Collection[]>('/api/users/500/collections', {
+    withCredentials: true,
+  });
+  console.log('Collection: ', response);
+  collections.value = response.data.data;
 });
 
 /* =========== METHODS =========== */
+
+
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+//.q-card {
+//  width: 100%;
+//  max-width: 400px;
+//}
+</style>
