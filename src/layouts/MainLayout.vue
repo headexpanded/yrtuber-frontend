@@ -96,18 +96,21 @@
         </q-item>
       </q-list>
         <q-separator />
-      <q-list>
+      <q-list dense>
         <q-item v-if="authStore.isAuthenticated">
-          <!--<q-item-section avatar>-->
-          <!--  <q-icon name="monitor" />-->
-          <!--</q-item-section>-->
-          <q-item-section>{{ $t('labels.categories') }}</q-item-section>
+          <q-item-section class="q-pt-md text-weight-bold">{{ $t('labels.explore') }}</q-item-section>
         </q-item>
-        <q-item v-if="authStore.isAuthenticated" clickable :to="{ name: 'profile' }">
-          <q-item-section avatar>
-            <q-icon name="person" />
-          </q-item-section>
-          <q-item-section>{{ $t('labels.you') }}</q-item-section>
+        <q-item v-if="authStore.isAuthenticated" clickable :to="{ name: 'categories' }">
+          <q-item-section>{{ $t('categories.anime') }}</q-item-section>
+        </q-item>
+        <q-item v-if="authStore.isAuthenticated" clickable :to="{ name: 'categories' }">
+          <q-item-section>{{ $t('categories.gaming') }}</q-item-section>
+        </q-item>
+        <q-item v-if="authStore.isAuthenticated" clickable :to="{ name: 'categories' }">
+          <q-item-section>{{ $t('categories.music') }}</q-item-section>
+        </q-item>
+        <q-item v-if="authStore.isAuthenticated" clickable :to="{ name: 'categories' }">
+          <q-item-section>{{ $t('categories.sports') }}</q-item-section>
         </q-item>
         <q-item v-if="!authStore.isAuthenticated" clickable :to="{ name: 'login' }">
           <q-item-section avatar>

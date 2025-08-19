@@ -1,6 +1,6 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <h4>{{ $t('labels.following') }}</h4>
+    <h4>category</h4>
   </q-page>
 </template>
 <script setup lang="ts">

@@ -14,6 +14,12 @@ const routes: RouteRecordRaw[] = [
         path: '/following',
         name: 'following',
         component: () => import('pages/FollowingPage.vue'),
+      },
+      {
+        path: '/categories',
+        name: 'categories',
+        component: () => import('pages/CategoryPage.vue'),
+        props: true,
       }
     ],
   },

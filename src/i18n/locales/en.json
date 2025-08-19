@@ -1,4 +1,15 @@
 {
+	"categories": {
+		"all": "All",
+		"anime": "Anime",
+		"comedy": "Comedy",
+		"gaming": "Gaming",
+		"music": "Music",
+		"news": "News",
+		"scienceAndTechnology": "Science & Technology",
+		"sports": "Sports",
+		"travelAndEvents": "Travel & Events"
+	},
 	"errors": {
 		"emailAlreadyExists": "Email already exists",
 		"invalidCredentials": "Invalid credentials",
@@ -22,6 +33,7 @@
 		"deletePasswordWarning": "Once you delete your account, there is no going back. Please be certain.",
 		"email": "Email",
 		"emailAddress": "Email address",
+		"explore": "Explore",
 		"following": "Following",
 		"home": "Home",
 		"login": "Login",
