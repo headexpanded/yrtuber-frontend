@@ -10,6 +10,11 @@ const routes: RouteRecordRaw[] = [
         name: 'home',
         component: () => import('pages/IndexPage.vue'),
       },
+      {
+        path: '/following',
+        name: 'following',
+        component: () => import('pages/FollowingPage.vue'),
+      }
     ],
   },
 
