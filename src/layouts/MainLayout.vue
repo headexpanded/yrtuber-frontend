@@ -74,7 +74,7 @@
         </div>
       </q-toolbar>
     </q-header>
-    <q-drawer v-model="leftDrawerOpen" bordered overlay>
+    <q-drawer v-model="leftDrawerOpen" bordered>
       <q-list>
         <q-item clickable :to="{ name: 'home' }" @click="toggleLeftDrawer">
           <q-item-section avatar>
