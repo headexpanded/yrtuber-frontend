@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { UserApiService } from 'src/services/userApi';
-import type { UpdatePasswordData, UpdateProfileData } from 'src/types/user';
+import type { UpdatePasswordData, UpdateProfileData } from 'src/types/User';
 
 type State = {
   isLoading: boolean;
