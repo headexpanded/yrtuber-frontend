@@ -117,7 +117,7 @@ export class UserApiService {
 
     if (error.request) {
       return {
-        message: 'labels.networkError'
+        message: 'errors.networkError'
       };
     }
 
