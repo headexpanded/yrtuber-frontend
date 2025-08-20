@@ -8,6 +8,7 @@
 <script setup lang="ts">
 import { api } from 'boot/axios';
 import CreatorCard from 'components/CreatorCard.vue';
+import { type Creator } from 'src/types/Creator';
 import { onMounted, ref } from 'vue';
 
 /* ============ PROPS ============ */
@@ -18,7 +19,7 @@ import { onMounted, ref } from 'vue';
 
 /* ============= REFS ============ */
 
-const creators = ref([]);
+const creators = ref<Creator[]>([]);
 
 /* ============ HOOKS ============ */
 
@@ -34,7 +35,7 @@ const getFollowedCreators = async () => {
     withCredentials: true,
   };
   await api
-    .get<Creator[]>(apiUrl, params)
+    .get<{ data: Creator[] }>(apiUrl, params)
     .then((response) => {
       creators.value = response.data.data;
     })
