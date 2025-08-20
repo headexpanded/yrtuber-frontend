@@ -122,12 +122,20 @@ onMounted(async () => {
   await api
     .get(apiUrl, params)
     .then((response) => {
-      console.log('My collections:', response);
+      console.log('My collections:', response.data.data);
       collections.value = response.data.data;
     })
     .catch((error) => {
       console.error('Error fetching my collections:', error);
     });
+
+  // await api.get('api/users/76/collections')
+  //          .then((response) => {
+  //            console.log('User collections:', response.data.data);
+  //          })
+  //          .catch((error) => {
+  //            console.error('Error fetching user collections:', error);
+  //          });
 });
 </script>
 
