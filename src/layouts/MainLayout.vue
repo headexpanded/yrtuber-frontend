@@ -9,7 +9,7 @@
           flat
           icon="menu"
           round
-          @click="toggleLeftDrawer"
+          @click="leftDrawerOpen = !leftDrawerOpen"
         />
         <q-toolbar-title>
           <router-link :to="{ name: 'home' }" class="text-grey-8 text-decoration-none">
@@ -18,7 +18,7 @@
         </q-toolbar-title>
         <q-input
           v-model="searchQuery"
-          class="q-pt-md input-width"
+          class="q-pt-md search-bar-width"
           clearable
           dense
           :disable="authStore.isLoading"
@@ -78,63 +78,7 @@
         </div>
       </q-toolbar>
     </q-header>
-    <q-drawer v-model="leftDrawerOpen" bordered>
-      <q-list>
-        <q-item clickable :to="{ name: 'home' }" @click="toggleLeftDrawer">
-          <q-item-section avatar>
-            <q-icon name="home" />
-          </q-item-section>
-          <q-item-section>{{ $t('labels.home') }}</q-item-section>
-        </q-item>
-        <q-item v-if="authStore.isAuthenticated" clickable :to="{ name: 'profile' }">
-          <q-item-section avatar>
-            <q-icon name="person" />
-          </q-item-section>
-          <q-item-section>{{ $t('labels.you') }}</q-item-section>
-        </q-item>
-        <q-item v-if="authStore.isAuthenticated" clickable :to="{ name: 'following' }">
-          <q-item-section avatar>
-            <q-icon name="monitor" />
-          </q-item-section>
-          <q-item-section>{{ $t('labels.following') }}</q-item-section>
-        </q-item>
-      </q-list>
-        <q-separator />
-      <q-list dense>
-        <q-item v-if="authStore.isAuthenticated">
-          <q-item-section class="q-pt-md text-weight-bold">{{ $t('labels.explore') }}</q-item-section>
-        </q-item>
-        <q-item v-if="authStore.isAuthenticated" clickable :to="{ name: 'categories' }">
-          <q-item-section>{{ $t('categories.anime') }}</q-item-section>
-        </q-item>
-        <q-item v-if="authStore.isAuthenticated" clickable :to="{ name: 'categories' }">
-          <q-item-section>{{ $t('categories.gaming') }}</q-item-section>
-        </q-item>
-        <q-item v-if="authStore.isAuthenticated" clickable :to="{ name: 'categories' }">
-          <q-item-section>{{ $t('categories.music') }}</q-item-section>
-        </q-item>
-        <q-item v-if="authStore.isAuthenticated" clickable :to="{ name: 'categories' }">
-          <q-item-section>{{ $t('categories.sports') }}</q-item-section>
-        </q-item>
-        <q-item v-if="!authStore.isAuthenticated" clickable :to="{ name: 'login' }">
-          <q-item-section avatar>
-            <q-icon name="login" />
-          </q-item-section>
-          <q-item-section>{{ $t('labels.login') }}</q-item-section>
-        </q-item>
-        <q-item
-          v-if="!authStore.isAuthenticated"
-          clickable
-          color="text-grey-8"
-          :to="{ name: 'register' }"
-        >
-          <q-item-section avatar>
-            <q-icon name="person_add" />
-          </q-item-section>
-          <q-item-section>{{ $t('labels.signUp') }}</q-item-section>
-        </q-item>
-      </q-list>
-    </q-drawer>
+    <LeftDrawer v-model="leftDrawerOpen" />
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -142,6 +86,7 @@
 </template>
 
 <script setup lang="ts">
+import LeftDrawer from 'components/LeftDrawer.vue';
 import { useAuthStore } from 'src/stores/auth-store';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -151,10 +96,6 @@ const authStore = useAuthStore();
 
 const leftDrawerOpen = ref(false);
 const searchQuery = ref('');
-
-const toggleLeftDrawer = () => {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
-};
 
 const goToProfile = async () => {
   await router.push({ name: 'profile' });
@@ -194,7 +135,7 @@ onMounted(async () => {
   text-decoration: none;
 }
 
-.input-width {
+.search-bar-width {
   width: 600px;
 }
 </style>
