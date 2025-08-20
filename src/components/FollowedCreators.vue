@@ -18,22 +18,30 @@ import { onMounted, ref } from 'vue';
 
 /* ============= REFS ============ */
 
-const creators = ref([])
+const creators = ref([]);
 
 /* ============ HOOKS ============ */
 
 onMounted(async () => {
-  const response = await api.get('api/follows/following', {
-    withCredentials: true,
-  });
-  console.log("Creators: ", response.data);
-  creators.value = response.data.data;
+  await getFollowedCreators();
 });
 
 /* =========== METHODS =========== */
 
+const getFollowedCreators = async () => {
+  const apiUrl = 'api/follows/following';
+  const params = {
+    withCredentials: true,
+  };
+  await api
+    .get<Creator[]>(apiUrl, params)
+    .then((response) => {
+      creators.value = response.data.data;
+    })
+    .catch((error) => {
+      console.error('Error fetching followed creators:', error);
+    });
+};
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

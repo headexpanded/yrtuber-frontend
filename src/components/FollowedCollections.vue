@@ -23,15 +23,25 @@ const collections = ref<Collection[]>([]);
 
 /* ============ HOOKS ============ */
 
-onMounted(async () => {
-  const response = await api.get<Collection[]>('/api/users/500/collections', {
-    withCredentials: true,
-  });
-  console.log('Collection: ', response);
-  collections.value = response.data.data;
+onMounted( async () => {
+  await getFollowedCollections()
 });
 
 /* =========== METHODS =========== */
+
+const getFollowedCollections = async () => {
+  const apiUrl = '/api/users/500/collections';
+  const params = {
+    withCredentials: true,
+  };
+  await api.get<Collection[]>(apiUrl, params)
+    .then((response) => {
+      collections.value = response.data.data;
+    })
+    .catch((error) => {
+      console.error('Error fetching followed collections:', error);
+    });
+}
 
 </script>
 
