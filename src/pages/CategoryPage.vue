@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md">
+  <q-page padding>
     <div class="row q-col-gutter-x-xs q-col-gutter-y-xl">
       <div v-for="item in collections" :key="item.id" class="col-xs-12 col-sm-6 col-md-4">
         <CollectionCard :item="item" />
