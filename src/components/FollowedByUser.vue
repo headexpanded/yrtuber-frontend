@@ -1,8 +1,8 @@
 <template>
   <q-tabs
     v-model="activeTab"
-    align="justify"
     active-color="primary"
+    align="justify"
     class="text-grey"
     indicator-color="primary"
     narrow-indicator
@@ -38,13 +38,8 @@ const activeTab = ref('collections');
 
 /* ============ HOOKS ============ */
 
-
-
 /* =========== METHODS =========== */
-
 
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>
