@@ -15,7 +15,7 @@ export type Collection = {
   video_count: number;
   created_at: string;
   updated_at: string;
-  user: {
+  user?: {
     id: number;
     username: string;
     profile: {

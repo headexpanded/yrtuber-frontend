@@ -13,7 +13,7 @@
           {{ item.view_count }} {{ $t('labels.views') }} | {{ localItem.like_count }}
           {{ $t('labels.likes') }}
         </span>
-        <span> {{ $t('labels.updated') }} {{ updatedAt(item.updated_at) }} </span>
+        <span v-if=item.user> {{ $t('labels.creator') }}: {{ item.user.username }} </span>
       </div>
     </q-card-section>
     <div v-for="tag in item.tags" :key="tag.id" class="row justify-start q-mb-sm q-pr-xs">
