@@ -13,9 +13,7 @@
           {{ item.view_count }} {{ $t('labels.views') }} | {{ localItem.like_count }}
           {{ $t('labels.likes') }}
         </span>
-        <span>
-          {{ $t('labels.updated') }} {{ updatedAt(item.updated_at) }}
-        </span>
+        <span> {{ $t('labels.updated') }} {{ updatedAt(item.updated_at) }} </span>
       </div>
     </q-card-section>
     <div v-for="tag in item.tags" :key="tag.id" class="row justify-start q-mb-sm q-pr-xs">
@@ -31,7 +29,16 @@
         icon="favorite"
         size="sm"
         @click="likeOrUnlike"
-      />
+      >
+        <q-tooltip
+          v-if="localItem.is_liked"
+          anchor="center left"
+          class="bg-grey-7 text-body2 text-bold"
+          self="center right"
+        >
+          {{ $t('labels.stopFollowing') }}
+        </q-tooltip>
+      </q-btn>
       <q-btn flat round color="accent" icon="bookmark" size="sm" />
       <q-btn flat round color="primary" icon="share" size="sm" />
     </q-card-actions>

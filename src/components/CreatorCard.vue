@@ -23,7 +23,16 @@
         icon="favorite"
         size="sm"
         @click="followOrUnfollow"
-      />
+      >
+        <q-tooltip
+          v-if="localItem.is_followed"
+          anchor="center left"
+          class="bg-grey-7 text-body2 text-bold"
+          self="center right"
+        >
+          {{ $t('labels.stopFollowing') }}
+        </q-tooltip>
+      </q-btn>
       <q-btn flat round color="accent" icon="bookmark" size="sm" />
       <q-btn flat round color="primary" icon="share" size="sm" />
     </q-card-actions>
