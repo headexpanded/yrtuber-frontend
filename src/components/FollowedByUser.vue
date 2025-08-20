@@ -15,9 +15,7 @@
         <FollowedCollections />
     </q-tab-panel>
     <q-tab-panel name="creators">
-      <div class="row q-col-gutter-x-xs q-col-gutter-y-xl">
         <FollowedCreators />
-      </div>
     </q-tab-panel>
   </q-tab-panels>
 </template>
