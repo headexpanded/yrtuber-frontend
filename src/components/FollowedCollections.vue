@@ -42,8 +42,6 @@ const getFollowedCollections = async () => {
     .catch((error) => {
       console.error('Error fetching followed collections:', error);
     });
-
-
 }
 
 </script>
