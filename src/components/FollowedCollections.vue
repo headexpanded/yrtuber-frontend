@@ -8,7 +8,7 @@
 <script setup lang="ts">
 import { api } from 'boot/axios';
 import CollectionCard from 'components/CollectionCard.vue';
-import type { Collection } from 'types/collection';
+import type { Collection } from 'src/types/Collection';
 import { onMounted, ref } from 'vue';
 
 /* ============ PROPS ============ */
@@ -30,11 +30,11 @@ onMounted( async () => {
 /* =========== METHODS =========== */
 
 const getFollowedCollections = async () => {
-  const apiUrl = '/api/users/500/collections';
+  const apiUrl = '/api/follows/collections';
   const params = {
     withCredentials: true,
   };
-  await api.get<Collection[]>(apiUrl, params)
+  await api.get<{ data: Collection[] }>(apiUrl, params)
     .then((response) => {
       collections.value = response.data.data;
     })
