@@ -15,11 +15,23 @@
         </q-item-label>
       </q-item-section>
     </q-item>
+    <q-card-actions align="right">
+      <q-btn
+        flat
+        round
+        :color="localItem.is_followed ? 'red' : 'grey-5'"
+        icon="favorite"
+        size="sm"
+        @click="followOrUnfollow"
+      />
+      <q-btn flat round color="accent" icon="bookmark" size="sm" />
+      <q-btn flat round color="primary" icon="share" size="sm" />
+    </q-card-actions>
   </q-card>
 </template>
 <script setup lang="ts">
 import type { Creator } from 'src/types/Creator';
-import { defineProps } from 'vue';
+import { defineProps, ref, watch } from 'vue';
 
 /* ============ PROPS ============ */
 
@@ -33,13 +45,34 @@ const props = defineProps<{
 
 /* ============= REFS ============ */
 
+const isFollowed = ref(false);
+const localItem = ref({
+  follower_count: props.creator.follower_count,
+  is_followed: props.creator.is_followed,
+});
+
 /* ============ HOOKS ============ */
+
+watch(
+  () => props.creator,
+  (newItem) => {
+    localItem.value.follower_count = newItem.follower_count;
+    localItem.value.is_followed = newItem.is_followed;
+  },
+  { deep: true },
+);
 
 /* =========== METHODS =========== */
 
 const goToCreator = () => {
   console.log('Navigating to creator:', props.creator.id);
 };
+
+const followOrUnfollow = () => {
+  console.log("Follow or unfollow")
+  isFollowed.value = !isFollowed.value;
+  localItem.value.is_followed = isFollowed.value;
+}
 </script>
 
 <style scoped lang="scss">

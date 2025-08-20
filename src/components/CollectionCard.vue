@@ -1,24 +1,24 @@
 <template>
   <q-card class="full-height" flat>
     <q-card-section class="cursor-pointer" @click="goToCollection">
-      <img alt="cover image" :src="props.item.cover_image" class="cover-image" />
+      <img alt="cover image" :src="item.cover_image" class="cover-image" />
     </q-card-section>
     <q-card-section class="q-py-none">
-      <q-item-label class="text-h6">{{ props.item.title }}</q-item-label>
+      <q-item-label class="text-h6">{{ item.title }}</q-item-label>
     </q-card-section>
     <q-card-section class="q-py-sm">
-      <q-item-label lines="2" class="q-pb-sm">{{ props.item.description }}</q-item-label>
+      <q-item-label lines="2" class="q-pb-sm">{{ item.description }}</q-item-label>
       <div class="column text-body2 text-grey-7">
         <span>
-          {{ props.item.view_count }} {{ $t('labels.views') }} | {{ localItem.like_count }}
+          {{ item.view_count }} {{ $t('labels.views') }} | {{ localItem.like_count }}
           {{ $t('labels.likes') }}
         </span>
         <span>
-          {{ $t('labels.updated') }} {{ updatedAt(props.item.updated_at) }}
+          {{ $t('labels.updated') }} {{ updatedAt(item.updated_at) }}
         </span>
       </div>
     </q-card-section>
-    <div v-for="tag in props.item.tags" :key="tag.id" class="row justify-start q-mb-sm q-pr-xs">
+    <div v-for="tag in item.tags" :key="tag.id" class="row justify-start q-mb-sm q-pr-xs">
       <q-item-label class="tag-label text-caption">
         {{ tag.name }}
       </q-item-label>
