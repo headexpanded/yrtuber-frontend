@@ -29,7 +29,6 @@ const getCollections = async () => {
   await api.get<{ data: Collection[] }>(apiUrl, params)
            .then((response) => {
              collections.value = response.data.data;
-             console.log('Followed collections:', collections.value);
            })
            .catch((error) => {
              console.error('Error fetching followed collections:', error);
