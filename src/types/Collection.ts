@@ -6,7 +6,7 @@ export type Collection = {
   title: string;
   slug: string;
   description?: string;
-  cover_image?: string;
+  cover_image: string ;
   layout: string;
   is_public: boolean;
   is_featured: boolean;
@@ -21,7 +21,7 @@ export type Collection = {
     profile: {
       username: string;
       avatar: string;
-      is_verified: boolean
+      is_verified: boolean;
     };
   };
   tags?: Tag[];
