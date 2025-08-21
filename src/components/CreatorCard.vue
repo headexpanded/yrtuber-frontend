@@ -12,7 +12,7 @@
         </div>
         <q-space />
         <q-icon color="grey-8" name="arrow_forward" />
-        <RouterLink to="/creator-collections" class="q-pl-sm text-body2 text-grey-8">
+        <RouterLink :to="{name: 'creator-collections'}" class="q-pl-sm text-body2 text-grey-8">
           {{ $t('labels.collections') }}
         </RouterLink>
       </div>
