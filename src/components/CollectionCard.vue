@@ -1,7 +1,9 @@
 <template>
   <q-card class="full-height" flat>
-    <q-card-section class="cursor-pointer" @click="goToCollection">
-      <img alt="cover image" :src="item.cover_image" class="cover-image" />
+    <q-card-section class="cursor-pointer">
+      <RouterLink :to="{ name: 'collection', params: { collectionId: item.id } }">
+        <img alt="cover image" :src="item.cover_image" class="cover-image" />
+      </RouterLink>
     </q-card-section>
     <q-card-section class="q-py-none">
       <q-item-label class="text-h6">{{ item.title }}</q-item-label>
@@ -13,7 +15,7 @@
           {{ item.view_count }} {{ $t('labels.views') }} | {{ localItem.like_count }}
           {{ $t('labels.likes') }}
         </span>
-        <span v-if=item.user> {{ $t('labels.creator') }}: {{ item.user.username }} </span>
+        <span v-if="item.user"> {{ $t('labels.creator') }}: {{ item.user.username }} </span>
       </div>
     </q-card-section>
     <div v-for="tag in item.tags" :key="tag.id" class="row justify-start q-mb-sm q-pr-xs">
@@ -126,11 +128,6 @@ const likeOrUnlike = async () => {
   } finally {
     isLiking.value = false;
   }
-};
-
-const goToCollection = () => {
-  console.log('Navigating to collection:', props.item.id);
-  // Use Vue Router to navigate to the collection page
 };
 </script>
 
