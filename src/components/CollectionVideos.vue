@@ -36,7 +36,8 @@ onMounted( async () => {
 
 /* =========== METHODS =========== */
 const getCollectionVideos = async () => {
-  const apiUrl = `/api/collections/${props.collectionId}/`;
+  // NEED TO GET VIDEOS FOR A COLLECTION
+  const apiUrl = `/api/collections/${props.collectionId}/videos`;
   const params = {
     withCredentials: true,
   };
