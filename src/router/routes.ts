@@ -16,9 +16,9 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/FollowingPage.vue'),
       },
       {
-        path: '/categories',
+        path: '/creator-collections',
         name: 'categories',
-        component: () => import('pages/CategoryPage.vue'),
+        component: () => import('pages/CreatorCollectionsPage.vue'),
         props: true,
       }
     ],

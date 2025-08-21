@@ -20,6 +20,7 @@
 	},
 
 	"labels": {
+		"aboutMe": "About me",
 		"accountDeleted": "Your account has been deleted.",
 		"alreadyHaveAccount": "Already have an account?",
 		"appName": "yrtuber",

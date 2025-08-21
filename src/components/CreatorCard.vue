@@ -1,18 +1,28 @@
 <template>
   <q-card class="full-height">
-    <q-item class="cursor-pointer" @click="goToCreator">
-      <q-item-section avatar>
-        <q-avatar>
-          <div class="avatar-border">
-            <img :src="creator.profile.avatar" alt="Creator Avatar" />
-          </div>
-        </q-avatar>
-      </q-item-section>
+    <q-card-section horizontal>
+      <div class="row items-center q-pa-md full-width">
+        <div class="row items-center">
+          <q-avatar>
+            <div class="avatar-border">
+              <img :src="creator.profile.avatar" alt="Creator Avatar" />
+            </div>
+          </q-avatar>
+          <q-item-label class="q-pl-md text-h6">{{ creator.profile.username }}</q-item-label>
+        </div>
+        <q-space />
+        <q-icon color="grey-8" name="arrow_forward" />
+        <RouterLink to="/creator-collections" class="q-pl-sm text-body2 text-grey-8">{{ $t('labels.collections') }}</RouterLink>
+      </div>
+    </q-card-section>
+    <q-item>
       <q-item-section>
-        <q-item-label class="text-h6">{{ creator.profile.username }}</q-item-label>
-        <q-item-label class="text-caption text-grey-7">
-          {{ creator.profile.bio }}
+        <q-item-label class="q-pb-md text-body1 text-grey-7">
+          {{ $t('labels.aboutMe') }}
         </q-item-label>
+        <div class="text-caption text-grey-7">
+          {{ creator.profile.bio }}
+        </div>
       </q-item-section>
     </q-item>
     <q-card-actions align="right">
@@ -39,6 +49,7 @@
   </q-card>
 </template>
 <script setup lang="ts">
+import { api } from 'boot/axios';
 import type { Creator } from 'src/types/Creator';
 import { defineProps, ref, watch } from 'vue';
 
@@ -56,7 +67,7 @@ const props = defineProps<{
 
 const isFollowed = ref(false);
 const localItem = ref({
-  follower_count: props.creator.follower_count,
+  follower_count: props.creator.profile.follower_count,
   is_followed: props.creator.is_followed,
 });
 
@@ -65,7 +76,7 @@ const localItem = ref({
 watch(
   () => props.creator,
   (newItem) => {
-    localItem.value.follower_count = newItem.follower_count;
+    localItem.value.follower_count = newItem.profile.follower_count;
     localItem.value.is_followed = newItem.is_followed;
   },
   { deep: true },
@@ -73,15 +84,29 @@ watch(
 
 /* =========== METHODS =========== */
 
-const goToCreator = () => {
+const goToCreatorCollections = async () => {
   console.log('Navigating to creator:', props.creator.id);
+  const apiUrl = `/api/users/${props.creator.id}/collections`;
+  const params = {
+    withCredentials: true,
+  };
+  await api
+    .get(apiUrl, params)
+    .then((response) => {
+      console.log('Creator collections:', response.data);
+      // Navigate to the creator's collections page
+      // This could be a router push or similar navigation logic
+    })
+    .catch((error) => {
+      console.error('Error fetching creator collections:', error);
+    });
 };
 
 const followOrUnfollow = () => {
-  console.log("Follow or unfollow")
+  console.log('Follow or unfollow');
   isFollowed.value = !isFollowed.value;
   localItem.value.is_followed = isFollowed.value;
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -101,7 +126,13 @@ const followOrUnfollow = () => {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+  }
+  a {
+    text-decoration: none;
 
+    &:visited {
+      color: inherit;
     }
   }
 }
