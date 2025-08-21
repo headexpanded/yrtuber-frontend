@@ -40,7 +40,6 @@ const getCreatorCollections = async () => {
   await api.get<{ data: Collection[] }>(apiUrl, params)
            .then((response) => {
              collections.value = response.data.data;
-             console.log('Creator collections:', collections.value);
            })
            .catch((error) => {
              console.error('Error fetching creator collections:', error);

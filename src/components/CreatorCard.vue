@@ -12,7 +12,9 @@
         </div>
         <q-space />
         <q-icon color="grey-8" name="arrow_forward" />
-        <RouterLink to="/creator-collections" class="q-pl-sm text-body2 text-grey-8">{{ $t('labels.collections') }}</RouterLink>
+        <RouterLink to="/creator-collections" class="q-pl-sm text-body2 text-grey-8">
+          {{ $t('labels.collections') }}
+        </RouterLink>
       </div>
     </q-card-section>
     <q-item>
@@ -49,7 +51,6 @@
   </q-card>
 </template>
 <script setup lang="ts">
-import { api } from 'boot/axios';
 import type { Creator } from 'src/types/Creator';
 import { defineProps, ref, watch } from 'vue';
 
@@ -84,24 +85,6 @@ watch(
 
 /* =========== METHODS =========== */
 
-const goToCreatorCollections = async () => {
-  console.log('Navigating to creator:', props.creator.id);
-  const apiUrl = `/api/users/${props.creator.id}/collections`;
-  const params = {
-    withCredentials: true,
-  };
-  await api
-    .get(apiUrl, params)
-    .then((response) => {
-      console.log('Creator collections:', response.data);
-      // Navigate to the creator's collections page
-      // This could be a router push or similar navigation logic
-    })
-    .catch((error) => {
-      console.error('Error fetching creator collections:', error);
-    });
-};
-
 const followOrUnfollow = () => {
   console.log('Follow or unfollow');
   isFollowed.value = !isFollowed.value;
@@ -128,6 +111,7 @@ const followOrUnfollow = () => {
       object-fit: cover;
     }
   }
+
   a {
     text-decoration: none;
 
