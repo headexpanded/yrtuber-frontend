@@ -11,12 +11,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/IndexPage.vue'),
       },
       {
-        path: '/following',
+        path: 'following',
         name: 'following',
         component: () => import('pages/FollowingPage.vue'),
       },
       {
-        path: '/creator-collections',
+        path: 'creator-collections',
         name: 'creator-collections',
         component: () => import('pages/CreatorCollectionsPage.vue'),
         props: true,
