@@ -20,6 +20,12 @@ const routes: RouteRecordRaw[] = [
         name: 'creator-collections',
         component: () => import('pages/CreatorCollectionsPage.vue'),
         props: true,
+      },
+      {
+        path: 'collections/:collectionId',
+        name: 'collection',
+        component: () => import('pages/VideosPage.vue'),
+        props: true,
       }
     ],
   },
