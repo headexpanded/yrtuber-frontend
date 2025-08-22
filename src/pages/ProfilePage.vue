@@ -1,7 +1,8 @@
 <template>
   <q-page padding>
     <div class="column">
-      <h4 class="q-my-none text-weight-bold">{{ username }}</h4>
+      <h4 class="q-my-none text-weight-bold">{{ userProfile.username }}</h4>
+      <div>{{userProfile.bio}}</div>
       <div class="column q-mb-xl q-py-md">
         <q-btn class="text-body2 text-grey-7 fit-content" flat no-caps rounded
         >
@@ -80,6 +81,7 @@ import ProfileForm from 'components/forms/ProfileForm.vue';
 import { useAuthStore } from 'src/stores/auth-store';
 import { useUserStore } from 'src/stores/user-store';
 import { type Collection } from 'src/types/Collection';
+import { type UserProfile } from 'src/types/User';
 import { onMounted, ref } from 'vue';
 
 /* ========= LOCAL SCOPE ========= */
@@ -92,6 +94,19 @@ const userStore = useUserStore();
 const activeTab = ref('profile');
 const showDeleteDialog = ref(false);
 const username = ref('');
+const userProfile = ref<Omit<UserProfile, 'id' | 'user_id'>>({
+  bio: '',
+  website: '',
+  username: '',
+  social_links: {
+    twitter: '',
+    github: '',
+    linkedin: '',
+    instagram: '',
+  },
+  created_at: '',
+  updated_at: '',
+})
 const collections = ref<Collection[]>([]);
 
 /* ============ HOOKS ============ */
@@ -103,16 +118,20 @@ onMounted(async () => {
 
   if (authStore.user) {
     username.value = authStore.user.username;
-    // if (authStore.user.profile) {
-    //   formData.value.bio = authStore.user.profile.bio || '';
-    //   formData.value.website = authStore.user.profile.website || '';
-    //   if (authStore.user.profile.social_links) {
-    //     formData.value.social_links = {
-    //       ...formData.value.social_links,
-    //       ...authStore.user.profile.social_links,
-    //     };
-    //   }
-    // }
+    if (authStore.user.profile) {
+      userProfile.value = {
+        ...authStore.user.profile,
+      };
+      //   formData.value.bio = authStore.user.profile.bio || '';
+      //   formData.value.website = authStore.user.profile.website || '';
+      //   if (authStore.user.profile.social_links) {
+      //     formData.value.social_links = {
+      //       ...formData.value.social_links,
+      //       ...authStore.user.profile.social_links,
+      //     };
+      //   }
+      // }
+    }
   }
 
   const apiUrl = 'api/my-collections';
