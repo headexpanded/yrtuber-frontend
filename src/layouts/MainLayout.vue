@@ -34,7 +34,14 @@
         </q-input>
         <q-space />
         <div class="row q-px-md flex-center">
-          <q-btn color="grey-8" flat icon-right="add" :label="$t('labels.create')" rounded />
+          <q-btn
+            color="grey-8"
+            flat
+            icon-right="add"
+            :label="$t('labels.create')"
+            rounded
+            @click="openCreateForm"
+          />
           <q-btn color="grey-8" flat icon="notifications" rounded />
         </div>
         <!-- User Menu -->
@@ -83,11 +90,14 @@
       <router-view />
     </q-page-container>
   </q-layout>
+  <CreateCollectionForm v-model="createFormOpen" @collection-created="handleCollectionCreated" />
 </template>
 
 <script setup lang="ts">
+import CreateCollectionForm from 'components/forms/CreateCollectionForm.vue';
 import LeftDrawer from 'components/LeftDrawer.vue';
 import { useAuthStore } from 'src/stores/auth-store';
+import { type Collection } from 'src/types/Collection';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -96,6 +106,10 @@ const authStore = useAuthStore();
 
 const leftDrawerOpen = ref(false);
 const searchQuery = ref('');
+const createFormOpen = ref(false);
+const openCreateForm = () => {
+  createFormOpen.value = true;
+};
 
 const goToProfile = async () => {
   await router.push({ name: 'profile' });
@@ -116,6 +130,15 @@ const handleSearch = () => {
   }
   // Implement search logic here
   console.log('Search query:', searchQuery.value);
+};
+
+const handleCollectionCreated = async (collection: Collection) => {
+  // Handle the collection creation event
+  console.log('Collection created:', collection);
+  // You could navigate to the collection page, update a list, etc.
+  await router.push({
+    name: 'profile',
+  });
 };
 
 // Check authentication status on mount

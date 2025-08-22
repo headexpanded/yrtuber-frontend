@@ -97,7 +97,6 @@
 </template>
 
 <script setup lang="ts">
-import { AxiosError } from 'axios';
 import { QForm } from 'quasar';
 import { ref, computed } from 'vue';
 import { CollectionApiService } from 'src/services/collectionApi';
@@ -184,7 +183,7 @@ const handleSubmit = async () => {
   error.value = '';
 
   try {
-        // Ensure layout is a string value, not an object
+        // Ensure the layout is a string value, not an object
     const layoutValue = typeof formData.value.layout === 'object' && formData.value.layout !== null
       ? (formData.value.layout as { value: string }).value
       : formData.value.layout;
@@ -209,7 +208,7 @@ const handleSubmit = async () => {
   }
 };
 
-// Reset form when dialog opens
+// Reset form when the dialog opens
 const handleDialogVisibility = (visible: boolean) => {
   if (visible) {
     resetForm();

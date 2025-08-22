@@ -2,9 +2,14 @@
   <q-page padding>
     <div class="column">
       <h4 class="q-my-none text-weight-bold">{{ userProfile.username }}</h4>
-      <div>{{userProfile.bio}}</div>
+      <div>{{ userProfile.bio }}</div>
       <div class="column q-mb-xl q-py-md">
-        <q-btn class="text-body2 text-grey-7 fit-content" flat no-caps rounded
+        <q-btn
+          class="text-body2 text-grey-7 fit-content"
+          flat
+          no-caps
+          rounded
+          @click="openCreateForm"
         >
           {{ $t('labels.createCollection') }}
         </q-btn>
@@ -70,12 +75,14 @@
     <DeleteAccountDialog v-model="showDeleteDialog" />
     >
   </q-page>
+  <CreateCollectionForm v-model="createFormOpen" @collection-created="getMyCollections" />
 </template>
 
 <script setup lang="ts">
 import { api } from 'boot/axios';
 import CollectionCard from 'components/CollectionCard.vue';
 import DeleteAccountDialog from 'components/DeleteAccountDialog.vue';
+import CreateCollectionForm from 'components/forms/CreateCollectionForm.vue';
 import PasswordForm from 'components/forms/PasswordForm.vue';
 import ProfileForm from 'components/forms/ProfileForm.vue';
 import { useAuthStore } from 'src/stores/auth-store';
@@ -106,8 +113,12 @@ const userProfile = ref<Omit<UserProfile, 'id' | 'user_id'>>({
   },
   created_at: '',
   updated_at: '',
-})
+});
 const collections = ref<Collection[]>([]);
+const createFormOpen = ref(false);
+const openCreateForm = () => {
+  createFormOpen.value = true;
+};
 
 /* ============ HOOKS ============ */
 
@@ -122,18 +133,14 @@ onMounted(async () => {
       userProfile.value = {
         ...authStore.user.profile,
       };
-      //   formData.value.bio = authStore.user.profile.bio || '';
-      //   formData.value.website = authStore.user.profile.website || '';
-      //   if (authStore.user.profile.social_links) {
-      //     formData.value.social_links = {
-      //       ...formData.value.social_links,
-      //       ...authStore.user.profile.social_links,
-      //     };
-      //   }
-      // }
     }
+    await getMyCollections();
   }
+});
 
+/* =========== METHODS =========== */
+
+const getMyCollections = async () => {
   const apiUrl = 'api/my-collections';
   const params = {
     withCredentials: true,
@@ -141,21 +148,13 @@ onMounted(async () => {
   await api
     .get(apiUrl, params)
     .then((response) => {
-      console.log('My collections:', response.data.data);
+      console.log('My collections profile page:', response.data.data);
       collections.value = response.data.data;
     })
     .catch((error) => {
       console.error('Error fetching my collections:', error);
     });
-
-  // await api.get('api/users/76/collections')
-  //          .then((response) => {
-  //            console.log('User collections:', response.data.data);
-  //          })
-  //          .catch((error) => {
-  //            console.error('Error fetching user collections:', error);
-  //          });
-});
+};
 </script>
 
 <style scoped lang="scss">

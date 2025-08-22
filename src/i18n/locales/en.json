@@ -28,6 +28,7 @@
 		"cancel": "Cancel",
 		"categories": "Categories",
 		"collections": "Collections",
+		"collectionCreated": "Collection created successfully",
 		"confirmDeleteAccount": "This action cannot be undone. Please enter your password to confirm.",
 		"create": "Create",
 		"createAccount": "Create an account",
