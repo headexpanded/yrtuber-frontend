@@ -9,10 +9,13 @@
 import { api } from 'boot/axios';
 import CollectionCard from 'components/CollectionCard.vue';
 import type { Collection } from 'src/types/Collection';
-import { useAuthStore } from 'stores/auth-store';
-import { onMounted, ref } from 'vue';
+import { defineProps, onMounted, ref } from 'vue';
 
 /* ============ PROPS ============ */
+
+const props = defineProps<{
+  creatorId: string;
+}>();
 
 /* ============ EMITS ============ */
 
@@ -20,7 +23,6 @@ import { onMounted, ref } from 'vue';
 
 /* ============= REFS ============ */
 
-const authStore = useAuthStore();
 const collections = ref<Collection[]>([]);
 
 /* ============ HOOKS ============ */
@@ -32,7 +34,7 @@ onMounted( async () => {
 /* =========== METHODS =========== */
 
 const getCreatorCollections = async () => {
-  const creatorId = authStore.user?.id;
+  const creatorId = props.creatorId
   const apiUrl = `/api/users/${creatorId}/collections`;
   const params = {
     withCredentials: true,
