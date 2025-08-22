@@ -31,7 +31,8 @@
         icon="favorite"
         size="sm"
         @click="likeOrUnlike"
-      >
+      />
+      <q-btn flat round color="accent" icon="bookmark" size="sm" >
         <q-tooltip
           v-if="localItem.is_liked"
           anchor="center left"
@@ -41,7 +42,6 @@
           {{ $t('labels.stopFollowing') }}
         </q-tooltip>
       </q-btn>
-      <q-btn flat round color="accent" icon="bookmark" size="sm" />
       <q-btn flat round color="primary" icon="share" size="sm" />
     </q-card-actions>
   </q-card>
