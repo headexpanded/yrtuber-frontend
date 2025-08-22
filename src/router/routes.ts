@@ -70,6 +70,19 @@ const routes: RouteRecordRaw[] = [
     ],
   },
 
+  // Video library route
+  {
+    path: '/videos',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: 'video-library',
+        component: () => import('pages/VideoLibraryPage.vue'),
+      },
+    ],
+  },
+
   // Always leave this as last one,
   // but you can also remove it
   {
