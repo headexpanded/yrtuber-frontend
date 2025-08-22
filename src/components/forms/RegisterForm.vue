@@ -49,8 +49,12 @@
             (val) => !!val || 'Password is required',
             (val) => val.length >= 8 || 'Password must be at least 8 characters',
           ]"
-          type="password"
-        />
+          :type="showPassword ? 'text' : 'password'"
+        >
+          <template v-slot:append>
+            <TogglePassword v-model="showPassword" />
+          </template>
+        </q-input>
 
         <q-input
           v-model="formData.password_confirmation"
@@ -62,8 +66,12 @@
             (val) => !!val || 'Please confirm your password',
             (val) => val === formData.password || $t('passwords.passwordsDoNotMatch'),
           ]"
-          type="password"
-        />
+          :type="showPassword ? 'text' : 'password'"
+        >
+          <template v-slot:append>
+            <TogglePassword v-model="showPassword" />
+          </template>
+        </q-input>
 
         <div v-if="authStore.error" class="text-negative text-center q-mb-md">
           {{ authStore.error }}
@@ -90,6 +98,7 @@
   </q-card>
 </template>
 <script setup lang="ts">
+import TogglePassword from 'components/TogglePassword.vue';
 import { QForm } from 'quasar';
 import type { RegisterCredentials } from 'src/types/User';
 import { useAuthStore } from 'stores/auth-store';
@@ -112,6 +121,7 @@ const formData = ref<RegisterCredentials>({
   password: '',
   password_confirmation: ''
 });
+const showPassword = ref<boolean>(false);
 /* ============ HOOKS ============ */
 
 /* =========== METHODS =========== */
