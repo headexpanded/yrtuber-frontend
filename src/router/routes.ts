@@ -57,6 +57,19 @@ const routes: RouteRecordRaw[] = [
     ],
   },
 
+  // Test route for collection forms
+  {
+    path: '/test/collection-forms',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: 'collection-forms-test',
+        component: () => import('pages/CollectionFormsTest.vue'),
+      },
+    ],
+  },
+
   // Always leave this as last one,
   // but you can also remove it
   {
